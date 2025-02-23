@@ -1,10 +1,15 @@
 
+import { useState } from "react";
 import { Smile, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { VoiceChat } from "@/components/VoiceChat";
 
 const Index = () => {
-  const navigate = useNavigate();
+  const [isConversationOpen, setIsConversationOpen] = useState(false);
+
+  const handleStartConversation = () => {
+    setIsConversationOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-[#D3E4FD] p-4">
@@ -20,11 +25,13 @@ const Index = () => {
           <Button 
             size="icon"
             className="w-24 h-24 rounded-full bg-gradient-to-r from-[#FEC6A1] to-[#FFA07A] hover:from-[#FFA07A] hover:to-[#FEC6A1]"
-            onClick={() => navigate("/chat")}
+            onClick={handleStartConversation}
           >
             <MessageCircle className="h-12 w-12" />
           </Button>
         </div>
+        
+        <VoiceChat isOpen={isConversationOpen} />
       </div>
     </div>
   );
