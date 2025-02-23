@@ -6,9 +6,11 @@ import { VoiceChat } from "@/components/VoiceChat";
 
 const Index = () => {
   const [isConversationOpen, setIsConversationOpen] = useState(false);
+  const [error, setError] = useState('');
 
   const handleStartConversation = () => {
     setIsConversationOpen(true);
+    setError(''); // Clear any previous errors
   };
 
   return (
@@ -21,7 +23,7 @@ const Index = () => {
           </h1>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center gap-4">
           <Button 
             size="icon"
             className="w-24 h-24 rounded-full bg-gradient-to-r from-[#FEC6A1] to-[#FFA07A] hover:from-[#FFA07A] hover:to-[#FEC6A1]"
@@ -29,9 +31,15 @@ const Index = () => {
           >
             <MessageCircle className="h-12 w-12" />
           </Button>
+          
+          {error && (
+            <div className="text-red-500 text-center max-w-md p-4 bg-red-50 rounded-lg">
+              {error}
+            </div>
+          )}
         </div>
         
-        <VoiceChat isOpen={isConversationOpen} />
+        <VoiceChat isOpen={isConversationOpen} onError={setError} />
       </div>
     </div>
   );

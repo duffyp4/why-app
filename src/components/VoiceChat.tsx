@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useConversation } from '@11labs/react';
 import { useToast } from "@/components/ui/use-toast";
 
-export const VoiceChat = ({ isOpen }: { isOpen: boolean }) => {
+export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (message: string) => void }) => {
   const conversation = useConversation();
   const [dialTone, setDialTone] = useState<HTMLAudioElement | null>(null);
   const { toast } = useToast();
@@ -51,13 +51,10 @@ export const VoiceChat = ({ isOpen }: { isOpen: boolean }) => {
                 },
               });
               console.log('Conversation started successfully');
+              onError(''); // Clear any previous errors
             } catch (error) {
               console.error('Failed to start conversation:', error);
-              toast({
-                title: "Error",
-                description: "Failed to start the conversation. Please make sure you've set up an AI agent in ElevenLabs.",
-                variant: "destructive"
-              });
+              onError('Failed to start the conversation. Please make sure you have set up an AI agent in ElevenLabs.');
             }
           }, 2000);
 
@@ -67,17 +64,13 @@ export const VoiceChat = ({ isOpen }: { isOpen: boolean }) => {
           };
         } catch (error) {
           console.error('Failed to start audio:', error);
-          toast({
-            title: "Error",
-            description: "Please allow microphone access to start the conversation.",
-            variant: "destructive"
-          });
+          onError('Please allow microphone access to start the conversation.');
         }
       };
 
       startConversationFlow();
     }
-  }, [isOpen, dialTone, conversation, toast]);
+  }, [isOpen, dialTone, conversation, toast, onError]);
 
   useEffect(() => {
     return () => {
