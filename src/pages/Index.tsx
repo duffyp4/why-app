@@ -15,13 +15,12 @@ const Index = () => {
             </h1>
           </div>
 
-          <div className="space-y-4">
+          <div className="flex justify-center">
             <Button 
-              size="lg" 
-              className="w-full bg-gradient-to-r from-[#FEC6A1] to-[#FFA07A] hover:from-[#FFA07A] hover:to-[#FEC6A1] text-lg h-16"
+              size="icon"
+              className="w-24 h-24 rounded-full bg-gradient-to-r from-[#FEC6A1] to-[#FFA07A] hover:from-[#FFA07A] hover:to-[#FEC6A1]"
             >
-              <MessageCircle className="mr-2 h-6 w-6" />
-              Start Chatting
+              <MessageCircle className="h-12 w-12" />
             </Button>
           </div>
         </Card>
