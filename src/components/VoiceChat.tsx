@@ -1,11 +1,9 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useConversation } from '@11labs/react';
-import { useToast } from "@/components/ui/use-toast";
 
 export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (message: string) => void }) => {
   const conversation = useConversation();
-  const { toast } = useToast();
 
   useEffect(() => {
     if (isOpen) {
@@ -13,7 +11,6 @@ export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (mess
       
       const startConversationFlow = async () => {
         try {
-          // Start conversation immediately without dial tone
           await conversation.startSession({
             agentId: "bvV3UYHC4ytDbrYZI1Zm",
             overrides: {
