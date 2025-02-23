@@ -39,7 +39,7 @@ export const VoiceChat = ({ isOpen }: { isOpen: boolean }) => {
             dialTone.pause();
             try {
               await conversation.startSession({
-                agentId: process.env.ELEVEN_LABS_AGENT_ID || "charlotte", // You need to replace this with your actual agent ID
+                agentId: "bvV3UYHC4ytDbrYZI1Zm",
                 overrides: {
                   agent: {
                     firstMessage: "Hello! I'm here to chat with you. What's on your mind?",
