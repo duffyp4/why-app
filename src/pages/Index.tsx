@@ -35,60 +35,42 @@ const Index = () => {
         </div>
 
         <div className="flex flex-col items-center gap-4">
-          <div className="relative">
+          <div className="relative w-32 h-32">
             {/* First Ring */}
-            <div className={`absolute inset-0 rounded-full bg-blue-400/30 transition-all duration-300 ${
-              isSpeaking ? 'scale-[2] opacity-0' : 'scale-100 opacity-0'
-            }`} style={{ 
-              animation: isSpeaking ? 'ripple 2s linear infinite' : 'none',
-              ...rippleStyles
-            }} />
+            <div 
+              className={`absolute inset-[-16px] rounded-full bg-blue-500/50 ${
+                isSpeaking ? 'animate-pulse-ring' : 'opacity-0'
+              }`}
+            />
             
             {/* Second Ring */}
-            <div className={`absolute inset-0 rounded-full bg-blue-400/30 transition-all duration-300 ${
-              isSpeaking ? 'scale-[2] opacity-0' : 'scale-100 opacity-0'
-            }`} style={{ 
-              animation: isSpeaking ? 'ripple 2s linear infinite 0.5s' : 'none',
-              ...rippleStyles
-            }} />
+            <div 
+              className={`absolute inset-[-32px] rounded-full bg-blue-400/40 ${
+                isSpeaking ? 'animate-pulse-ring animation-delay-200' : 'opacity-0'
+              }`}
+            />
             
             {/* Third Ring */}
-            <div className={`absolute inset-0 rounded-full bg-blue-400/30 transition-all duration-300 ${
-              isSpeaking ? 'scale-[2] opacity-0' : 'scale-100 opacity-0'
-            }`} style={{ 
-              animation: isSpeaking ? 'ripple 2s linear infinite 1s' : 'none',
-              ...rippleStyles
-            }} />
+            <div 
+              className={`absolute inset-[-48px] rounded-full bg-blue-300/30 ${
+                isSpeaking ? 'animate-pulse-ring animation-delay-400' : 'opacity-0'
+              }`}
+            />
             
             <Button 
               size="icon"
-              className="w-24 h-24 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#33C3F0] hover:from-[#33C3F0] hover:to-[#0EA5E9] transition-all duration-300 relative z-10"
+              className="absolute inset-0 m-auto w-24 h-24 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#33C3F0] hover:from-[#33C3F0] hover:to-[#0EA5E9] transition-all duration-300"
               onClick={handleStartConversation}
             >
               <MessageCircle className="h-12 w-12" />
             </Button>
-
-            <style>
-              {`
-                @keyframes ripple {
-                  0% {
-                    transform: scale(1);
-                    opacity: 0.5;
-                  }
-                  100% {
-                    transform: scale(2);
-                    opacity: 0;
-                  }
-                }
-              `}
-            </style>
           </div>
 
           {isConversationOpen && (
             <Button
               variant="destructive"
               size="lg"
-              className="rounded-full"
+              className="rounded-full mt-4"
               onClick={handleEndConversation}
             >
               <PhoneOff className="mr-2" />
@@ -108,15 +90,40 @@ const Index = () => {
           onError={setError}
           onSpeakingChange={setIsSpeaking}
         />
+
+        <style>
+          {`
+            @keyframes pulse-ring {
+              0% {
+                transform: scale(0.7);
+                opacity: 0.5;
+              }
+              50% {
+                transform: scale(1);
+                opacity: 0.3;
+              }
+              100% {
+                transform: scale(0.7);
+                opacity: 0.5;
+              }
+            }
+
+            .animate-pulse-ring {
+              animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+
+            .animation-delay-200 {
+              animation-delay: 0.2s;
+            }
+
+            .animation-delay-400 {
+              animation-delay: 0.4s;
+            }
+          `}
+        </style>
       </div>
     </div>
   );
 };
-
-// Define ripple styles outside the component
-const rippleStyles = {
-  transformOrigin: 'center',
-  willChange: 'transform, opacity'
-} as const;
 
 export default Index;
