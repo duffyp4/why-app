@@ -9,14 +9,18 @@ const Index = () => {
   const [error, setError] = useState('');
 
   const handleStartConversation = () => {
+    console.log('Starting conversation...');
     setIsConversationOpen(true);
     setError(''); // Clear any previous errors
   };
 
   const handleEndConversation = () => {
+    console.log('Ending conversation...');
     setIsConversationOpen(false);
     setError(''); // Clear any previous errors
   };
+
+  console.log('Current conversation state:', isConversationOpen);
 
   return (
     <div className="min-h-screen bg-[#D3E4FD] p-4">
