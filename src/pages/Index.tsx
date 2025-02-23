@@ -39,17 +39,26 @@ const Index = () => {
             {/* First Ring */}
             <div className={`absolute inset-0 rounded-full bg-blue-400/30 transition-all duration-300 ${
               isSpeaking ? 'scale-[2] opacity-0' : 'scale-100 opacity-0'
-            }`} style={{ animation: isSpeaking ? 'ripple 2s linear infinite' : 'none' }} />
+            }`} style={{ 
+              animation: isSpeaking ? 'ripple 2s linear infinite' : 'none',
+              ...rippleStyles
+            }} />
             
             {/* Second Ring */}
             <div className={`absolute inset-0 rounded-full bg-blue-400/30 transition-all duration-300 ${
               isSpeaking ? 'scale-[2] opacity-0' : 'scale-100 opacity-0'
-            }`} style={{ animation: isSpeaking ? 'ripple 2s linear infinite 0.5s' : 'none' }} />
+            }`} style={{ 
+              animation: isSpeaking ? 'ripple 2s linear infinite 0.5s' : 'none',
+              ...rippleStyles
+            }} />
             
             {/* Third Ring */}
             <div className={`absolute inset-0 rounded-full bg-blue-400/30 transition-all duration-300 ${
               isSpeaking ? 'scale-[2] opacity-0' : 'scale-100 opacity-0'
-            }`} style={{ animation: isSpeaking ? 'ripple 2s linear infinite 1s' : 'none' }} />
+            }`} style={{ 
+              animation: isSpeaking ? 'ripple 2s linear infinite 1s' : 'none',
+              ...rippleStyles
+            }} />
             
             <Button 
               size="icon"
@@ -59,18 +68,20 @@ const Index = () => {
               <MessageCircle className="h-12 w-12" />
             </Button>
 
-            <style jsx>{`
-              @keyframes ripple {
-                0% {
-                  transform: scale(1);
-                  opacity: 0.5;
+            <style>
+              {`
+                @keyframes ripple {
+                  0% {
+                    transform: scale(1);
+                    opacity: 0.5;
+                  }
+                  100% {
+                    transform: scale(2);
+                    opacity: 0;
+                  }
                 }
-                100% {
-                  transform: scale(2);
-                  opacity: 0;
-                }
-              }
-            `}</style>
+              `}
+            </style>
           </div>
 
           {isConversationOpen && (
@@ -101,5 +112,11 @@ const Index = () => {
     </div>
   );
 };
+
+// Define ripple styles outside the component
+const rippleStyles = {
+  transformOrigin: 'center',
+  willChange: 'transform, opacity'
+} as const;
 
 export default Index;
