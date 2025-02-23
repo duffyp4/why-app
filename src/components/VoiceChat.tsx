@@ -1,10 +1,12 @@
 
 import { useEffect, useState } from 'react';
 import { useConversation } from '@11labs/react';
+import { useToast } from "@/components/ui/use-toast";
 
 export const VoiceChat = ({ isOpen }: { isOpen: boolean }) => {
   const conversation = useConversation();
   const [dialTone, setDialTone] = useState<HTMLAudioElement | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     console.log('Initializing dial tone audio');
@@ -21,20 +23,23 @@ export const VoiceChat = ({ isOpen }: { isOpen: boolean }) => {
 
   useEffect(() => {
     if (isOpen && dialTone) {
-      console.log('Conversation opened, playing dial tone');
-      // Need to handle user interaction first
-      const playAudio = async () => {
+      console.log('Conversation opened, attempting to start');
+      
+      const startConversationFlow = async () => {
         try {
+          // First try to get microphone permission
+          await navigator.mediaDevices.getUserMedia({ audio: true });
+          
+          // Then play the dial tone
           await dialTone.play();
           console.log('Dial tone playing successfully');
           
-          // Start conversation after 2 seconds of dial tone
+          // Start conversation after 2 seconds
           const timer = setTimeout(async () => {
-            console.log('Stopping dial tone, starting conversation');
             dialTone.pause();
             try {
               await conversation.startSession({
-                agentId: "default", // Replace with your agent ID from ElevenLabs
+                agentId: process.env.ELEVEN_LABS_AGENT_ID || "charlotte", // You need to replace this with your actual agent ID
                 overrides: {
                   agent: {
                     firstMessage: "Hello! I'm here to chat with you. What's on your mind?",
@@ -48,6 +53,11 @@ export const VoiceChat = ({ isOpen }: { isOpen: boolean }) => {
               console.log('Conversation started successfully');
             } catch (error) {
               console.error('Failed to start conversation:', error);
+              toast({
+                title: "Error",
+                description: "Failed to start the conversation. Please make sure you've set up an AI agent in ElevenLabs.",
+                variant: "destructive"
+              });
             }
           }, 2000);
 
@@ -56,13 +66,18 @@ export const VoiceChat = ({ isOpen }: { isOpen: boolean }) => {
             dialTone.pause();
           };
         } catch (error) {
-          console.error('Failed to play dial tone:', error);
+          console.error('Failed to start audio:', error);
+          toast({
+            title: "Error",
+            description: "Please allow microphone access to start the conversation.",
+            variant: "destructive"
+          });
         }
       };
 
-      playAudio();
+      startConversationFlow();
     }
-  }, [isOpen, dialTone, conversation]);
+  }, [isOpen, dialTone, conversation, toast]);
 
   useEffect(() => {
     return () => {
