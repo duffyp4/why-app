@@ -3,19 +3,34 @@ import { useEffect, useRef } from 'react';
 import { useConversation } from '@11labs/react';
 
 export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (message: string) => void }) => {
-  const conversation = useConversation();
+  const conversation = useConversation({
+    onConnect: () => {
+      console.log('WebSocket connection established');
+    },
+    onDisconnect: () => {
+      console.log('WebSocket connection ended');
+    },
+    onMessage: (message) => {
+      console.log('Message received:', message);
+    },
+    onError: (error) => {
+      console.error('Conversation error:', error);
+      onError('An error occurred during the conversation');
+    },
+  });
+  
   const sessionStartedRef = useRef(false);
 
   useEffect(() => {
     if (isOpen && !sessionStartedRef.current) {
-      console.log('Attempting to start new conversation session');
-      
       const startConversationFlow = async () => {
         try {
-          sessionStartedRef.current = true;
-          console.log('Starting conversation session...');
+          // Request microphone access first
+          await navigator.mediaDevices.getUserMedia({ audio: true });
+          console.log('Microphone access granted');
           
-          await conversation.startSession({
+          sessionStartedRef.current = true;
+          const conversationId = await conversation.startSession({
             agentId: "bvV3UYHC4ytDbrYZI1Zm",
             overrides: {
               agent: {
@@ -30,12 +45,12 @@ export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (mess
               },
             },
           });
-          console.log('Conversation session started successfully');
+          console.log('Conversation started with ID:', conversationId);
           onError(''); // Clear any previous errors
         } catch (error) {
           console.error('Failed to start conversation:', error);
           sessionStartedRef.current = false;
-          onError('Failed to start the conversation. Please check your microphone permissions and try again.');
+          onError('Please allow microphone access to start the conversation.');
         }
       };
 
@@ -44,12 +59,19 @@ export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (mess
 
     return () => {
       if (sessionStartedRef.current) {
-        console.log('Cleaning up conversation session');
+        console.log('Ending conversation session');
         conversation.endSession();
         sessionStartedRef.current = false;
       }
     };
   }, [isOpen, conversation, onError]);
+
+  // Add volume control (optional)
+  useEffect(() => {
+    if (sessionStartedRef.current) {
+      conversation.setVolume({ volume: 1.0 });
+    }
+  }, [conversation]);
 
   return null;
 };
