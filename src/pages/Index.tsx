@@ -1,8 +1,11 @@
 
 import { Smile, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-[#D3E4FD] p-4">
       <div className="max-w-3xl mx-auto">
@@ -17,6 +20,7 @@ const Index = () => {
           <Button 
             size="icon"
             className="w-24 h-24 rounded-full bg-gradient-to-r from-[#FEC6A1] to-[#FFA07A] hover:from-[#FFA07A] hover:to-[#FEC6A1]"
+            onClick={() => navigate("/chat")}
           >
             <MessageCircle className="h-12 w-12" />
           </Button>
