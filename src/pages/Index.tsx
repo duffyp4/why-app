@@ -35,15 +35,18 @@ const Index = () => {
         </div>
 
         <div className="flex flex-col items-center gap-4">
-          <Button 
-            size="icon"
-            className={`w-24 h-24 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#33C3F0] hover:from-[#33C3F0] hover:to-[#0EA5E9] transition-all duration-300 ${
-              isSpeaking ? 'animate-pulse' : ''
-            }`}
-            onClick={handleStartConversation}
-          >
-            <MessageCircle className="h-12 w-12" />
-          </Button>
+          <div className="relative">
+            <div className={`absolute inset-0 rounded-full bg-blue-400 ${
+              isSpeaking ? 'animate-[ping_1.5s_ease-in-out_infinite]' : 'opacity-0'
+            }`} />
+            <Button 
+              size="icon"
+              className="w-24 h-24 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#33C3F0] hover:from-[#33C3F0] hover:to-[#0EA5E9] transition-all duration-300 relative z-10"
+              onClick={handleStartConversation}
+            >
+              <MessageCircle className="h-12 w-12" />
+            </Button>
+          </div>
 
           {isConversationOpen && (
             <Button
