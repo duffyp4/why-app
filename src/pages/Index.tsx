@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Smile, MessageCircle } from "lucide-react";
+import { Smile, MessageCircle, PhoneOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VoiceChat } from "@/components/VoiceChat";
 
@@ -10,6 +10,11 @@ const Index = () => {
 
   const handleStartConversation = () => {
     setIsConversationOpen(true);
+    setError(''); // Clear any previous errors
+  };
+
+  const handleEndConversation = () => {
+    setIsConversationOpen(false);
     setError(''); // Clear any previous errors
   };
 
@@ -31,6 +36,18 @@ const Index = () => {
           >
             <MessageCircle className="h-12 w-12" />
           </Button>
+
+          {isConversationOpen && (
+            <Button
+              variant="destructive"
+              size="lg"
+              className="rounded-full"
+              onClick={handleEndConversation}
+            >
+              <PhoneOff className="mr-2" />
+              End Call
+            </Button>
+          )}
           
           {error && (
             <div className="text-red-500 text-center max-w-md p-4 bg-red-50 rounded-lg">
