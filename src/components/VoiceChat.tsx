@@ -2,7 +2,14 @@
 import { useEffect, useRef } from 'react';
 import { useConversation } from '@11labs/react';
 
-export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (message: string) => void }) => {
+interface VoiceChatProps {
+  isOpen: boolean;
+  onError: (message: string) => void;
+  onUserSpeakingChange: (speaking: boolean) => void;
+  onAISpeakingChange: (speaking: boolean) => void;
+}
+
+export const VoiceChat = ({ isOpen, onError, onUserSpeakingChange, onAISpeakingChange }: VoiceChatProps) => {
   const conversation = useConversation();
   const sessionActiveRef = useRef(false);
 
@@ -15,6 +22,28 @@ export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (mess
             agentId: "bvV3UYHC4ytDbrYZI1Zm"
           });
           console.log('Started conversation:', conversationId);
+
+          // Set up event listeners for speaking states
+          conversation.on('userSpeechStart', () => {
+            console.log('User started speaking');
+            onUserSpeakingChange(true);
+          });
+
+          conversation.on('userSpeechEnd', () => {
+            console.log('User stopped speaking');
+            onUserSpeakingChange(false);
+          });
+
+          conversation.on('agentSpeechStart', () => {
+            console.log('AI started speaking');
+            onAISpeakingChange(true);
+          });
+
+          conversation.on('agentSpeechEnd', () => {
+            console.log('AI stopped speaking');
+            onAISpeakingChange(false);
+          });
+
         } catch (error) {
           console.error('Conversation error:', error);
           onError('Failed to start conversation');
@@ -27,8 +56,10 @@ export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (mess
       console.log('Ending conversation session');
       conversation.endSession();
       sessionActiveRef.current = false;
+      onUserSpeakingChange(false);
+      onAISpeakingChange(false);
     }
-  }, [isOpen, conversation, onError]);
+  }, [isOpen, conversation, onError, onUserSpeakingChange, onAISpeakingChange]);
 
   return null;
 };
