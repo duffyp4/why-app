@@ -39,7 +39,7 @@ const Index = () => {
         <div className="flex flex-col items-center gap-4">
           <Button 
             size="icon"
-            className="w-24 h-24 rounded-full bg-gradient-to-r from-[#FEC6A1] to-[#FFA07A] hover:from-[#FFA07A] hover:to-[#FEC6A1]"
+            className="w-24 h-24 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#33C3F0] hover:from-[#33C3F0] hover:to-[#0EA5E9]"
             onClick={handleStartConversation}
           >
             <MessageCircle className="h-12 w-12" />
