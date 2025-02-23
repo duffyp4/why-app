@@ -1,16 +1,20 @@
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useConversation } from '@11labs/react';
 
 export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (message: string) => void }) => {
   const conversation = useConversation();
+  const sessionStartedRef = useRef(false);
 
   useEffect(() => {
-    if (isOpen) {
-      console.log('Conversation opened, attempting to start');
+    if (isOpen && !sessionStartedRef.current) {
+      console.log('Attempting to start new conversation session');
       
       const startConversationFlow = async () => {
         try {
+          sessionStartedRef.current = true;
+          console.log('Starting conversation session...');
+          
           await conversation.startSession({
             agentId: "bvV3UYHC4ytDbrYZI1Zm",
             overrides: {
@@ -20,27 +24,32 @@ export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (mess
               },
               tts: {
                 voiceId: "XB0fDUnXU5powFXDhCwa",
+                stability: 0.5,
+                similarityBoost: 0.75,
+                modelId: "eleven_multilingual_v2",
               },
             },
           });
-          console.log('Conversation started successfully');
+          console.log('Conversation session started successfully');
           onError(''); // Clear any previous errors
         } catch (error) {
           console.error('Failed to start conversation:', error);
-          onError('Failed to start the conversation. Please try refreshing the page.');
+          sessionStartedRef.current = false;
+          onError('Failed to start the conversation. Please check your microphone permissions and try again.');
         }
       };
 
       startConversationFlow();
     }
-  }, [isOpen, conversation, onError]);
 
-  useEffect(() => {
     return () => {
-      console.log('Cleaning up conversation');
-      conversation.endSession();
+      if (sessionStartedRef.current) {
+        console.log('Cleaning up conversation session');
+        conversation.endSession();
+        sessionStartedRef.current = false;
+      }
     };
-  }, [conversation]);
+  }, [isOpen, conversation, onError]);
 
   return null;
 };
