@@ -36,9 +36,21 @@ const Index = () => {
 
         <div className="flex flex-col items-center gap-4">
           <div className="relative">
-            <div className={`absolute inset-0 rounded-full bg-blue-400 ${
-              isSpeaking ? 'animate-[ping_1.5s_ease-in-out_infinite]' : 'opacity-0'
-            }`} />
+            {/* First Ring */}
+            <div className={`absolute inset-0 rounded-full bg-blue-400/30 transition-all duration-300 ${
+              isSpeaking ? 'scale-[2] opacity-0' : 'scale-100 opacity-0'
+            }`} style={{ animation: isSpeaking ? 'ripple 2s linear infinite' : 'none' }} />
+            
+            {/* Second Ring */}
+            <div className={`absolute inset-0 rounded-full bg-blue-400/30 transition-all duration-300 ${
+              isSpeaking ? 'scale-[2] opacity-0' : 'scale-100 opacity-0'
+            }`} style={{ animation: isSpeaking ? 'ripple 2s linear infinite 0.5s' : 'none' }} />
+            
+            {/* Third Ring */}
+            <div className={`absolute inset-0 rounded-full bg-blue-400/30 transition-all duration-300 ${
+              isSpeaking ? 'scale-[2] opacity-0' : 'scale-100 opacity-0'
+            }`} style={{ animation: isSpeaking ? 'ripple 2s linear infinite 1s' : 'none' }} />
+            
             <Button 
               size="icon"
               className="w-24 h-24 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#33C3F0] hover:from-[#33C3F0] hover:to-[#0EA5E9] transition-all duration-300 relative z-10"
@@ -46,6 +58,19 @@ const Index = () => {
             >
               <MessageCircle className="h-12 w-12" />
             </Button>
+
+            <style jsx>{`
+              @keyframes ripple {
+                0% {
+                  transform: scale(1);
+                  opacity: 0.5;
+                }
+                100% {
+                  transform: scale(2);
+                  opacity: 0;
+                }
+              }
+            `}</style>
           </div>
 
           {isConversationOpen && (
