@@ -6,6 +6,7 @@ import { VoiceChat } from "@/components/VoiceChat";
 
 const Index = () => {
   const [isConversationOpen, setIsConversationOpen] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const [error, setError] = useState('');
 
   const handleStartConversation = () => {
@@ -21,6 +22,7 @@ const Index = () => {
   };
 
   console.log('Current conversation state:', isConversationOpen);
+  console.log('Speaking state:', isSpeaking);
 
   return (
     <div className="min-h-screen bg-[#D3E4FD] p-4">
@@ -35,7 +37,9 @@ const Index = () => {
         <div className="flex flex-col items-center gap-4">
           <Button 
             size="icon"
-            className="w-24 h-24 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#33C3F0] hover:from-[#33C3F0] hover:to-[#0EA5E9]"
+            className={`w-24 h-24 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#33C3F0] hover:from-[#33C3F0] hover:to-[#0EA5E9] transition-all duration-300 ${
+              isSpeaking ? 'animate-pulse' : ''
+            }`}
             onClick={handleStartConversation}
           >
             <MessageCircle className="h-12 w-12" />
@@ -60,7 +64,11 @@ const Index = () => {
           )}
         </div>
         
-        <VoiceChat isOpen={isConversationOpen} onError={setError} />
+        <VoiceChat 
+          isOpen={isConversationOpen} 
+          onError={setError}
+          onSpeakingChange={setIsSpeaking}
+        />
       </div>
     </div>
   );

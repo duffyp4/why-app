@@ -2,9 +2,24 @@
 import { useEffect, useRef } from 'react';
 import { useConversation } from '@11labs/react';
 
-export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (message: string) => void }) => {
+export const VoiceChat = ({ 
+  isOpen, 
+  onError,
+  onSpeakingChange 
+}: { 
+  isOpen: boolean; 
+  onError: (message: string) => void;
+  onSpeakingChange?: (isSpeaking: boolean) => void;
+}) => {
   const conversation = useConversation();
   const sessionActiveRef = useRef(false);
+  const { isSpeaking } = useConversation();
+
+  useEffect(() => {
+    if (onSpeakingChange) {
+      onSpeakingChange(isSpeaking);
+    }
+  }, [isSpeaking, onSpeakingChange]);
 
   useEffect(() => {
     if (isOpen && !sessionActiveRef.current) {
