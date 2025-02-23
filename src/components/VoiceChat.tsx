@@ -27,16 +27,18 @@ export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (mess
       
       const startConversationFlow = async () => {
         try {
-          // First try to get microphone permission
-          await navigator.mediaDevices.getUserMedia({ audio: true });
+          // Play the dial tone first
+          await dialTone.play().catch((error) => {
+            console.error('Failed to play dial tone:', error);
+            // Continue even if dial tone fails
+          });
+          console.log('Starting conversation flow');
           
-          // Then play the dial tone
-          await dialTone.play();
-          console.log('Dial tone playing successfully');
-          
-          // Start conversation after 2 seconds
+          // Start conversation after a short delay
           const timer = setTimeout(async () => {
-            dialTone.pause();
+            if (dialTone) {
+              dialTone.pause();
+            }
             try {
               await conversation.startSession({
                 agentId: "bvV3UYHC4ytDbrYZI1Zm",
@@ -46,7 +48,7 @@ export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (mess
                     language: "en",
                   },
                   tts: {
-                    voiceId: "XB0fDUnXU5powFXDhCwa", // Charlotte's voice
+                    voiceId: "XB0fDUnXU5powFXDhCwa",
                   },
                 },
               });
@@ -54,23 +56,25 @@ export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (mess
               onError(''); // Clear any previous errors
             } catch (error) {
               console.error('Failed to start conversation:', error);
-              onError('Failed to start the conversation. Please make sure you have set up an AI agent in ElevenLabs.');
+              onError('Failed to start the conversation. Please try refreshing the page.');
             }
-          }, 2000);
+          }, 1000);
 
           return () => {
             clearTimeout(timer);
-            dialTone.pause();
+            if (dialTone) {
+              dialTone.pause();
+            }
           };
         } catch (error) {
           console.error('Failed to start audio:', error);
-          onError('Please allow microphone access to start the conversation.');
+          onError('An error occurred while starting the conversation. Please try refreshing the page.');
         }
       };
 
       startConversationFlow();
     }
-  }, [isOpen, dialTone, conversation, toast, onError]);
+  }, [isOpen, dialTone, conversation, onError]);
 
   useEffect(() => {
     return () => {
