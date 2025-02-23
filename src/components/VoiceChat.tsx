@@ -1,14 +1,16 @@
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useConversation } from '@11labs/react';
 
 export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (message: string) => void }) => {
   const conversation = useConversation();
+  const sessionActiveRef = useRef(false);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !sessionActiveRef.current) {
       const startConversation = async () => {
         try {
+          sessionActiveRef.current = true;
           const conversationId = await conversation.startSession({
             agentId: "bvV3UYHC4ytDbrYZI1Zm"
           });
@@ -16,14 +18,15 @@ export const VoiceChat = ({ isOpen, onError }: { isOpen: boolean; onError: (mess
         } catch (error) {
           console.error('Conversation error:', error);
           onError('Failed to start conversation');
+          sessionActiveRef.current = false;
         }
       };
 
       startConversation();
-
-      return () => {
-        conversation.endSession();
-      };
+    } else if (!isOpen && sessionActiveRef.current) {
+      console.log('Ending conversation session');
+      conversation.endSession();
+      sessionActiveRef.current = false;
     }
   }, [isOpen, conversation, onError]);
 
