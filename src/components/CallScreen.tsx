@@ -16,6 +16,12 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     },
     onError: (error) => {
       console.error('Conversation error:', error);
+    },
+    onConnect: () => {
+      console.log('WebSocket connected');
+    },
+    onDisconnect: () => {
+      console.log('WebSocket disconnected');
     }
   });
 
@@ -27,12 +33,21 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     // Start the conversation session
     const startConversationSession = async () => {
       try {
-        await conversation.startSession({
+        console.log('Starting initial conversation session...');
+        const conversationId = await conversation.startSession({
           agentId: "bvV3UYHC4ytDbrYZI1Zm"
         });
-        console.log('Conversation session started successfully');
+        console.log('Conversation session started successfully:', {
+          conversationId,
+          status: conversation.status,
+          timestamp: new Date().toISOString()
+        });
       } catch (error) {
-        console.error('Error starting conversation session:', error);
+        console.error('Error starting conversation session:', {
+          error,
+          status: conversation.status,
+          timestamp: new Date().toISOString()
+        });
       }
     };
 
@@ -47,26 +62,47 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
       clearTimeout(timer);
       audio.pause();
       audio.currentTime = 0;
-      // End the session when component unmounts
+      console.log('Cleaning up conversation...', {
+        status: conversation.status,
+        timestamp: new Date().toISOString()
+      });
       conversation.endSession();
     };
   }, [onCallStarted, conversation]);
 
   const handleGiraffeClick = async () => {
     try {
-      console.log('Current conversation status:', conversation.status);
+      console.log('Giraffe button clicked:', {
+        currentStatus: conversation.status,
+        timestamp: new Date().toISOString()
+      });
+
       if (conversation.status === "connected") {
-        console.log('Sending giraffe fact request...');
+        console.log('Attempting to send giraffe fact request...', {
+          timestamp: new Date().toISOString()
+        });
         // Restart the session with our giraffe question
-        await conversation.startSession({
+        const newSessionId = await conversation.startSession({
           agentId: "bvV3UYHC4ytDbrYZI1Zm",
           initialMessages: ["Tell me a fact about giraffes"]
         });
+        console.log('New giraffe session started:', {
+          newSessionId,
+          timestamp: new Date().toISOString()
+        });
       } else {
-        console.log('Conversation not connected. Current status:', conversation.status);
+        console.log('Conversation not connected:', {
+          currentStatus: conversation.status,
+          timestamp: new Date().toISOString()
+        });
       }
     } catch (error) {
-      console.error('Error sending giraffe fact request:', error);
+      console.error('Error in giraffe fact request:', {
+        error,
+        status: conversation.status,
+        timestamp: new Date().toISOString(),
+        errorStack: error instanceof Error ? error.stack : undefined
+      });
     }
   };
 
