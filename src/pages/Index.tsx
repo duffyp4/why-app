@@ -36,26 +36,16 @@ const Index = () => {
 
         <div className="flex flex-col items-center gap-4">
           <div className="relative w-32 h-32">
-            {/* First Ring */}
-            <div 
-              className={`absolute inset-[-16px] rounded-full bg-blue-500/50 ${
-                isSpeaking ? 'animate-pulse-ring' : 'opacity-0'
-              }`}
-            />
-            
-            {/* Second Ring */}
-            <div 
-              className={`absolute inset-[-32px] rounded-full bg-blue-400/40 ${
-                isSpeaking ? 'animate-pulse-ring animation-delay-200' : 'opacity-0'
-              }`}
-            />
-            
-            {/* Third Ring */}
-            <div 
-              className={`absolute inset-[-48px] rounded-full bg-blue-300/30 ${
-                isSpeaking ? 'animate-pulse-ring animation-delay-400' : 'opacity-0'
-              }`}
-            />
+            {/* Audio visualization line */}
+            <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-white">
+              <div 
+                className={`h-full w-full ${
+                  isSpeaking 
+                    ? 'animate-wave' 
+                    : 'bg-white'
+                }`}
+              />
+            </div>
             
             <Button 
               size="icon"
@@ -93,31 +83,25 @@ const Index = () => {
 
         <style>
           {`
-            @keyframes pulse-ring {
-              0% {
-                transform: scale(0.7);
-                opacity: 0.5;
+            @keyframes wave {
+              0%, 100% {
+                transform: scaleY(1);
+              }
+              25% {
+                transform: scaleY(2);
               }
               50% {
-                transform: scale(1);
-                opacity: 0.3;
+                transform: scaleY(1);
               }
-              100% {
-                transform: scale(0.7);
-                opacity: 0.5;
+              75% {
+                transform: scaleY(1.5);
               }
             }
 
-            .animate-pulse-ring {
-              animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            }
-
-            .animation-delay-200 {
-              animation-delay: 0.2s;
-            }
-
-            .animation-delay-400 {
-              animation-delay: 0.4s;
+            .animate-wave {
+              animation: wave 1s ease-in-out infinite;
+              transform-origin: center;
+              background: white;
             }
           `}
         </style>
