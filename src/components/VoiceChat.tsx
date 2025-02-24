@@ -11,7 +11,25 @@ export const VoiceChat = ({
   onError: (message: string) => void;
   onSpeakingChange?: (isSpeaking: boolean) => void;
 }) => {
-  const conversation = useConversation();
+  const conversation = useConversation({
+    onMessage: (message) => {
+      console.log('Received message:', message);
+      // Check if the message contains audio data
+      if (message.type === 'audio') {
+        console.log('Audio message received');
+        if (onSpeakingChange) {
+          onSpeakingChange(true);
+          // Reset speaking state after audio message ends
+          setTimeout(() => onSpeakingChange(false), message.duration || 1000);
+        }
+      }
+    },
+    onError: (error) => {
+      console.error('Conversation error:', error);
+      onError('Error during conversation');
+    }
+  });
+  
   const sessionActiveRef = useRef(false);
   const { isSpeaking } = useConversation();
 
@@ -26,7 +44,8 @@ export const VoiceChat = ({
       console.log('Speaking state update:', {
         isSpeaking,
         timestamp: new Date().toISOString(),
-        connectionStatus: conversation.status
+        connectionStatus: conversation.status,
+        sessionActive: sessionActiveRef.current
       });
       onSpeakingChange(isSpeaking);
     }
@@ -39,7 +58,8 @@ export const VoiceChat = ({
           sessionActiveRef.current = true;
           console.log('Starting new conversation session...');
           const conversationId = await conversation.startSession({
-            agentId: "bvV3UYHC4ytDbrYZI1Zm"
+            agentId: "bvV3UYHC4ytDbrYZI1Zm",
+            initialMessages: [] // Add any initial messages if needed
           });
           console.log('Conversation session started successfully:', {
             conversationId,
