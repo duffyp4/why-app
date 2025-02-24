@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { PhoneOff } from 'lucide-react';
 import { useConversation } from '@11labs/react';
@@ -12,10 +13,11 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
   const sessionStartedRef = useRef(false);
   const audioContextRef = useRef<AudioContext | null>(null);
   const sourceRef = useRef<AudioBufferSourceNode | null>(null);
+  const hasCalledStartRef = useRef(false);
   
   const conversation = useConversation({
     onMessage: (message) => {
-      console.log('Received message:', {
+      console.log('CallScreen received message:', {
         message,
         status: conversation.status,
         timestamp: new Date().toISOString(),
@@ -23,7 +25,7 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
       });
     },
     onError: (error) => {
-      console.error('Conversation error:', {
+      console.error('CallScreen conversation error:', {
         error,
         status: conversation.status,
         timestamp: new Date().toISOString(),
@@ -31,14 +33,14 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
       });
     },
     onConnect: () => {
-      console.log('WebSocket connected:', {
+      console.log('CallScreen WebSocket connected:', {
         timestamp: new Date().toISOString(),
         sessionStarted: sessionStartedRef.current
       });
     },
     onDisconnect: () => {
       if (sessionStartedRef.current) {
-        console.log('WebSocket disconnected:', {
+        console.log('CallScreen WebSocket disconnected:', {
           timestamp: new Date().toISOString(),
           sessionStarted: sessionStartedRef.current
         });
@@ -46,24 +48,27 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     }
   });
 
+  // Handle audio initialization
   useEffect(() => {
     const initAudio = async () => {
       try {
-        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-        audioContextRef.current = audioContext;
+        if (!audioContextRef.current) {
+          const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+          audioContextRef.current = audioContext;
 
-        const response = await fetch('/dial-tone.mp3');
-        const arrayBuffer = await response.arrayBuffer();
-        
-        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        
-        const source = audioContext.createBufferSource();
-        source.buffer = audioBuffer;
-        source.loop = true;
-        source.connect(audioContext.destination);
-        sourceRef.current = source;
-        
-        console.log('Audio successfully initialized');
+          const response = await fetch('/dial-tone.mp3');
+          const arrayBuffer = await response.arrayBuffer();
+          
+          const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+          
+          const source = audioContext.createBufferSource();
+          source.buffer = audioBuffer;
+          source.loop = true;
+          source.connect(audioContext.destination);
+          sourceRef.current = source;
+          
+          console.log('Audio successfully initialized');
+        }
       } catch (error) {
         console.error('Error initializing audio:', error);
       }
@@ -72,9 +77,14 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     initAudio();
 
     return () => {
+      console.log('CallScreen cleanup - audio resources');
       if (sourceRef.current) {
-        sourceRef.current.stop();
-        sourceRef.current.disconnect();
+        try {
+          sourceRef.current.stop();
+          sourceRef.current.disconnect();
+        } catch (error) {
+          console.error('Error cleaning up audio source:', error);
+        }
       }
       if (audioContextRef.current) {
         audioContextRef.current.close();
@@ -82,57 +92,34 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     };
   }, []);
 
+  // Handle conversation session
   useEffect(() => {
-    const startConversationSession = async () => {
-      try {
-        if (!sessionStartedRef.current) {
-          console.log('Starting initial conversation session...');
-          
-          if (sourceRef.current && audioContextRef.current) {
-            try {
-              if (audioContextRef.current.state === 'suspended') {
-                await audioContextRef.current.resume();
-              }
-              sourceRef.current.start();
-              console.log('Audio playback started successfully');
-            } catch (audioError) {
-              console.error('Audio playback error:', audioError);
-            }
-          }
-
-          const conversationId = await conversation.startSession({
-            agentId: "bvV3UYHC4ytDbrYZI1Zm"
-          });
-          sessionStartedRef.current = true;
-          console.log('Conversation session started:', conversationId);
+    if (isConnecting && !sessionStartedRef.current && !hasCalledStartRef.current) {
+      const timer = setTimeout(() => {
+        setIsConnecting(false);
+        if (!hasCalledStartRef.current) {
+          hasCalledStartRef.current = true;
+          console.log('CallScreen - Calling onCallStarted');
+          onCallStarted();
         }
-      } catch (error) {
-        console.error('Error starting conversation session:', error);
-      }
-    };
+      }, 3000);
 
-    const timer = setTimeout(() => {
-      setIsConnecting(false);
-      onCallStarted();
-      startConversationSession();
-    }, 3000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [isConnecting, onCallStarted]);
 
+  // Cleanup on unmount
+  useEffect(() => {
     return () => {
-      clearTimeout(timer);
-      if (sourceRef.current) {
-        try {
-          sourceRef.current.stop();
-        } catch (error) {
-          console.error('Error stopping audio:', error);
-        }
-      }
+      console.log('CallScreen - Final cleanup');
       if (sessionStartedRef.current) {
-        console.log('Cleaning up conversation...');
         sessionStartedRef.current = false;
-        conversation.endSession();
+        hasCalledStartRef.current = false;
       }
     };
-  }, [onCallStarted, conversation]);
+  }, []);
 
   const decorativeEmojis = ['🐱', '🐵', '🐰', '🐧', '🐘', '🦊'];
 
