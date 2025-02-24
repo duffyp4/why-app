@@ -44,13 +44,13 @@ const Index = () => {
           </Button>
 
           {/* Audio visualization line */}
-          <div className="w-32 h-1 bg-white/20 rounded-full overflow-hidden">
+          <div className="w-32 h-2 bg-white/20 rounded-full overflow-hidden">
             <div 
-              className={`h-full w-full bg-white transition-all duration-150 ${
-                isSpeaking ? 'animate-wave' : 'scale-y-0'
-              }`}
-              style={{ transformOrigin: 'center' }}
-              id="wave-animation"
+              className="h-full bg-white transition-transform duration-300"
+              style={{
+                transform: isSpeaking ? 'scaleY(1)' : 'scaleY(0)',
+                transformOrigin: 'bottom'
+              }}
             />
           </div>
 
@@ -78,20 +78,6 @@ const Index = () => {
           onError={setError}
           onSpeakingChange={setIsSpeaking}
         />
-
-        <style>
-          {`
-            @keyframes wave {
-              0%, 100% { transform: scaleY(0.5); }
-              50% { transform: scaleY(2); }
-            }
-
-            .animate-wave {
-              animation: wave 1s ease-in-out infinite;
-              transform-origin: center;
-            }
-          `}
-        </style>
       </div>
     </div>
   );
