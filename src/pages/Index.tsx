@@ -69,7 +69,7 @@ const Index = () => {
                 why?
               </span>
             </div>
-            <div className="text-gray-600 text-[1.2rem] text-right" style={{ fontFamily: "'Chewy', cursive" }}>
+            <div className="text-gray-600 text-[1.56rem] text-right" style={{ fontFamily: "'Chewy', cursive" }}>
               <div className="text-[#FEC6A1]">For when kids</div>
               <div className="text-[#ea384c] font-semibold">wonder</div>
             </div>
