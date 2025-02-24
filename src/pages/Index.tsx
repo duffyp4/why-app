@@ -45,9 +45,9 @@ const Index = () => {
         </div>
         <div className="text-gray-600 text-xl mt-2 flex flex-col items-end gap-6">
           <span>When kids <em className="font-semibold not-italic">wonder</em></span>
-          <div className="relative inline-flex items-center scale-125">
-            <MessageCircle className="w-16 h-16 text-[#3772FF]" />
-            <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold text-lg px-4">
+          <div className="relative inline-flex items-center scale-150 -ml-8">
+            <MessageCircle className="w-20 h-20 text-[#3772FF]" />
+            <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold text-2xl px-4">
               why?
             </span>
           </div>
@@ -107,6 +107,15 @@ const Index = () => {
           <p className="text-gray-600">"Why does my dad drink coffee?"</p>
           <p className="text-gray-600">"Why do babies eat baby food?"</p>
         </div>
+      </div>
+
+      {/* Giraffe Image */}
+      <div className="fixed bottom-0 left-0 w-full h-2/3 pointer-events-none">
+        <img 
+          src="/lovable-uploads/b96e232b-7284-4e6b-bf25-db8579ac1102.png" 
+          alt="Cute giraffe under a tree"
+          className="w-full h-full object-contain"
+        />
       </div>
     </div>
   );
