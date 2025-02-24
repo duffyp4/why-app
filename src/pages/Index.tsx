@@ -38,13 +38,13 @@ const Index = () => {
     <div className="min-h-screen bg-white font-fredoka relative">
       <div className="p-4 pb-0">
         {/* Header Section */}
-        <div className="max-w-3xl mx-auto mb-12 flex justify-between items-end">
+        <div className="max-w-3xl mx-auto mb-12 flex justify-between">
           <div className="text-[#3772FF] text-5xl font-bold leading-tight text-left">
             <div>Learn</div>
             <div>With</div>
             <div>Lara</div>
           </div>
-          <div className="text-gray-600 text-xl mt-2 flex flex-col items-end gap-6">
+          <div className="text-gray-600 text-xl flex flex-col items-end justify-between">
             <span>For when kids <em className="font-semibold not-italic">wonder</em></span>
             <div className="relative inline-flex items-center scale-150 -ml-8">
               <MessageCircle className="w-24 h-24 text-[#3772FF]" />
