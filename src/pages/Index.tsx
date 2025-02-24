@@ -4,14 +4,21 @@ import { Smile, Phone, PhoneOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VoiceChat } from "@/components/VoiceChat";
 import { useConversation } from '@11labs/react';
+import { CallScreen } from "@/components/CallScreen";
 
 const Index = () => {
   const [isConversationOpen, setIsConversationOpen] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [error, setError] = useState('');
+  const [isCallScreenVisible, setIsCallScreenVisible] = useState(false);
   const conversation = useConversation();
 
   const handleStartConversation = () => {
+    console.log('Starting call screen...');
+    setIsCallScreenVisible(true);
+  };
+
+  const handleCallStarted = () => {
     console.log('Starting conversation...');
     setIsConversationOpen(true);
     setError('');
@@ -20,6 +27,7 @@ const Index = () => {
   const handleEndConversation = () => {
     console.log('Ending conversation...');
     setIsConversationOpen(false);
+    setIsCallScreenVisible(false);
     setError('');
   };
 
@@ -46,7 +54,7 @@ const Index = () => {
                 className={`w-24 h-24 rounded-full ${
                   isConversationOpen ? 'bg-[#4CAF50]' : 'bg-[#F5E453]'
                 } flex items-center justify-center transition-colors border-4 border-white shadow-inner relative`}
-                onClick={isConversationOpen ? handleEndConversation : handleStartConversation}
+                onClick={handleStartConversation}
               >
                 {isConversationOpen ? (
                   <PhoneOff className="w-12 h-12 text-red-500 absolute z-10" />
@@ -77,6 +85,13 @@ const Index = () => {
           onError={setError}
           onSpeakingChange={setIsSpeaking}
         />
+
+        {isCallScreenVisible && (
+          <CallScreen
+            onCallStarted={handleCallStarted}
+            onEndCall={handleEndConversation}
+          />
+        )}
       </div>
     </div>
   );
