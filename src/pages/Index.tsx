@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Phone, PhoneOff, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VoiceChat } from "@/components/VoiceChat";
@@ -12,20 +11,44 @@ const Index = () => {
   const [error, setError] = useState('');
   const [isCallScreenVisible, setIsCallScreenVisible] = useState(false);
   const conversation = useConversation();
+  const renderCountRef = useRef(0);
+
+  useEffect(() => {
+    renderCountRef.current++;
+    console.log('Index component render:', {
+      renderCount: renderCountRef.current,
+      isConversationOpen,
+      isSpeaking,
+      isCallScreenVisible,
+      stack: new Error().stack
+    });
+  });
 
   const handleStartConversation = () => {
-    console.log('Starting call screen...');
+    console.log('handleStartConversation called:', {
+      currentIsCallScreenVisible: isCallScreenVisible,
+      currentIsConversationOpen: isConversationOpen,
+      stack: new Error().stack
+    });
     setIsCallScreenVisible(true);
   };
 
   const handleCallStarted = () => {
-    console.log('Starting conversation...');
+    console.log('handleCallStarted called:', {
+      currentIsCallScreenVisible: isCallScreenVisible,
+      currentIsConversationOpen: isConversationOpen,
+      stack: new Error().stack
+    });
     setIsConversationOpen(true);
     setError('');
   };
 
   const handleEndConversation = () => {
-    console.log('Ending conversation...');
+    console.log('handleEndConversation called:', {
+      currentIsCallScreenVisible: isCallScreenVisible,
+      currentIsConversationOpen: isConversationOpen,
+      stack: new Error().stack
+    });
     setIsConversationOpen(false);
     setIsCallScreenVisible(false);
     setError('');
@@ -89,6 +112,7 @@ const Index = () => {
         )}
           
         <VoiceChat 
+          key={`voice-chat-${isConversationOpen}`}
           isOpen={isConversationOpen} 
           onError={setError}
           onSpeakingChange={setIsSpeaking}
