@@ -39,10 +39,10 @@ const Index = () => {
       <div className="p-4 pb-0">
         {/* Header Section */}
         <div className="max-w-3xl mx-auto mb-12 flex justify-between">
-          <div className="text-[#EA526F] text-5xl font-bold leading-tight text-left">
-            <div>Learn</div>
-            <div>With</div>
-            <div>Lara</div>
+          <div className="text-5xl font-bold leading-tight text-left">
+            <div className="text-[#EA526F]">Learn</div>
+            <div className="text-[#FF8A5B]">with</div>
+            <div className="text-[#EA526F]">Lara</div>
           </div>
           <div className="text-gray-600 text-xl mt-5 flex flex-col items-end justify-between">
             <span>For when kids <em className="font-semibold not-italic">wonder</em></span>
