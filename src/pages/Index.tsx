@@ -46,8 +46,8 @@ const Index = () => {
         <div className="text-gray-600 text-xl mt-2 flex flex-col items-end gap-6">
           <span>When kids <em className="font-semibold not-italic">wonder</em></span>
           <div className="relative inline-flex items-center scale-150 -ml-8">
-            <MessageCircle className="w-20 h-20 text-[#3772FF]" />
-            <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold text-2xl px-8">
+            <MessageCircle className="w-24 h-24 text-[#3772FF]" />
+            <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold text-2xl px-12">
               why?
             </span>
           </div>
@@ -110,7 +110,7 @@ const Index = () => {
       </div>
 
       {/* Giraffe Image */}
-      <div className="fixed bottom-0 left-0 w-full pointer-events-none" style={{ top: 'calc(100vh - 66.67vh)' }}>
+      <div className="absolute bottom-0 left-0 w-full pointer-events-none" style={{ top: 'min(calc(100% - 500px), 65%)' }}>
         <img 
           src="/lovable-uploads/b96e232b-7284-4e6b-bf25-db8579ac1102.png" 
           alt="Cute giraffe under a tree"
