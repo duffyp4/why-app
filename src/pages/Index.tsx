@@ -27,10 +27,10 @@ const Index = () => {
   console.log('Speaking state:', isSpeaking);
 
   return (
-    <div className="min-h-screen bg-[#3772FF] p-4 font-fredoka">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-white p-4 font-fredoka">
+      <div className="max-w-3xl mx-auto bg-[#3772FF] rounded-3xl shadow-lg p-8">
         {/* Header with Fisher-Price style */}
-        <div className="bg-[#3772FF] rounded-b-3xl shadow-lg mb-8 p-4">
+        <div className="mb-8">
           <h1 className="text-4xl font-bold text-white mb-2 flex items-center justify-center gap-2">
             <Smile className="w-10 h-10 text-[#F5E453]" />
             Learn with Lara
