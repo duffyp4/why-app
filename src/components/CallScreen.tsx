@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { PhoneOff } from 'lucide-react';
 import { useConversation } from '@11labs/react';
@@ -47,22 +46,17 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     }
   });
 
-  // Initialize Web Audio API
   useEffect(() => {
     const initAudio = async () => {
       try {
-        // Create Audio Context
         const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
         audioContextRef.current = audioContext;
 
-        // Fetch the audio file
         const response = await fetch('/dial-tone.mp3');
         const arrayBuffer = await response.arrayBuffer();
         
-        // Decode the audio data
         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
         
-        // Create and configure source
         const source = audioContext.createBufferSource();
         source.buffer = audioBuffer;
         source.loop = true;
@@ -94,7 +88,6 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
         if (!sessionStartedRef.current) {
           console.log('Starting initial conversation session...');
           
-          // Start audio playback using Web Audio API
           if (sourceRef.current && audioContextRef.current) {
             try {
               if (audioContextRef.current.state === 'suspended') {
@@ -118,7 +111,6 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
       }
     };
 
-    // Wait 3 seconds before starting the actual call
     const timer = setTimeout(() => {
       setIsConnecting(false);
       onCallStarted();
@@ -146,15 +138,13 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
 
   return (
     <div className="fixed inset-0 bg-[#1E2F3D] z-50 flex flex-col items-center p-8 font-fredoka animate-[scale-up_0.3s_ease-out]">
-      {/* Phone number and status */}
       <div className="text-center mt-16">
-        <div className="text-white text-4xl mb-2">555-555-5555</div>
+        <div className="text-white text-4xl mb-2">123-555-5555</div>
         <div className="text-[#4CAF50] text-xl animate-pulse">
           {isConnecting ? 'calling...' : 'Learn with Lara'}
         </div>
       </div>
 
-      {/* Decorative animal buttons (non-interactive) */}
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="grid grid-cols-3 gap-8">
           {decorativeEmojis.map((emoji, index) => (
@@ -174,7 +164,6 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
         </div>
       </div>
 
-      {/* End call button */}
       <div className="fixed bottom-16 left-0 right-0 flex justify-center">
         <button 
           onClick={onEndCall}
