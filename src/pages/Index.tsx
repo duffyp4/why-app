@@ -44,12 +44,12 @@ const Index = () => {
           </Button>
 
           {/* Audio visualization line */}
-          <div className="w-32 h-[2px] bg-white/50 my-4">
+          <div className="w-32 h-[2px] overflow-hidden">
             <div 
-              className={`h-full w-full ${
+              className={`h-full w-full bg-white ${
                 isSpeaking 
                   ? 'animate-wave' 
-                  : 'bg-white'
+                  : ''
               }`}
             />
           </div>
@@ -83,25 +83,24 @@ const Index = () => {
           {`
             @keyframes wave {
               0% {
-                transform: scaleY(1);
+                transform: translateY(0px);
               }
               25% {
-                transform: scaleY(3);
+                transform: translateY(-4px);
               }
               50% {
-                transform: scaleY(1);
+                transform: translateY(0px);
               }
               75% {
-                transform: scaleY(2);
+                transform: translateY(4px);
               }
               100% {
-                transform: scaleY(1);
+                transform: translateY(0px);
               }
             }
 
             .animate-wave {
-              animation: wave 0.75s ease-in-out infinite;
-              transform-origin: center;
+              animation: wave 0.5s ease-in-out infinite;
               background: white;
             }
           `}
