@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Phone, PhoneOff, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -108,8 +109,16 @@ const Index = () => {
             <p className="text-gray-600">"Why do babies eat baby food?"</p>
           </div>
         </div>
+      </div>
 
-        <div className="absolute bottom-0 left-0 right-0 mb-4 text-center">
+      {/* Transparent Container with Giraffe Image */}
+      <div className="h-[400px]">
+        <img 
+          src="/lovable-uploads/b96e232b-7284-4e6b-bf25-db8579ac1102.png" 
+          alt="Cute giraffe under a tree"
+          className="w-full h-full object-contain object-bottom"
+        />
+        <div className="text-center mt-2">
           <div className="text-gray-600">
             Made with 🤘
           </div>
@@ -117,15 +126,6 @@ const Index = () => {
             by Uncle PJ
           </div>
         </div>
-      </div>
-
-      {/* Transparent Container with Giraffe Image */}
-      <div className="h-[400px] bg-white/5 backdrop-blur-[2px]">
-        <img 
-          src="/lovable-uploads/b96e232b-7284-4e6b-bf25-db8579ac1102.png" 
-          alt="Cute giraffe under a tree"
-          className="w-full h-full object-contain object-bottom"
-        />
       </div>
     </div>
   );
