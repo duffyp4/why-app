@@ -21,12 +21,7 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
       });
     },
     onError: (error) => {
-      console.error('Conversation error:', {
-        error,
-        status: conversation.status,
-        timestamp: new Date().toISOString(),
-        sessionStarted: sessionStartedRef.current
-      });
+      console.error('Conversation error:', error);
     },
     onConnect: () => {
       console.log('WebSocket connected:', {
