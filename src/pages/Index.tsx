@@ -112,20 +112,20 @@ const Index = () => {
       </div>
 
       {/* Transparent Container with Giraffe Image */}
-      <div className="h-[400px]">
+      <div className="h-[400px] relative">
+        <div className="absolute w-full text-center bottom-2 z-10">
+          <div className="text-gray-600" style={{ fontFamily: "'Schoolbell', cursive" }}>
+            Made with 🤘
+          </div>
+          <div className="text-gray-600" style={{ fontFamily: "'Schoolbell', cursive" }}>
+            by Uncle PJ
+          </div>
+        </div>
         <img 
           src="/lovable-uploads/b96e232b-7284-4e6b-bf25-db8579ac1102.png" 
           alt="Cute giraffe under a tree"
           className="w-full h-full object-contain object-bottom"
         />
-        <div className="text-center mt-2">
-          <div className="text-gray-600">
-            Made with 🤘
-          </div>
-          <div className="text-gray-600">
-            by Uncle PJ
-          </div>
-        </div>
       </div>
     </div>
   );
