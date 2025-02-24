@@ -45,10 +45,10 @@ const Index = () => {
             <div>Lara</div>
           </div>
           <div className="text-gray-600 text-xl mt-2 flex flex-col items-end gap-6">
-            <span>When kids <em className="font-semibold not-italic">wonder</em></span>
+            <span>For when kids <em className="font-semibold not-italic">wonder</em></span>
             <div className="relative inline-flex items-center scale-150 -ml-8">
               <MessageCircle className="w-24 h-24 text-[#3772FF]" />
-              <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold text-2xl px-12">
+              <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold text-2xl px-12" style={{ fontFamily: "'Schoolbell', cursive" }}>
                 why?
               </span>
             </div>
