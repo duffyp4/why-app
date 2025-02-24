@@ -3,12 +3,13 @@ import { useState } from "react";
 import { Smile, PhoneOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VoiceChat } from "@/components/VoiceChat";
-import { useConversation, ConversationVisualizer } from '@11labs/react';
+import { useConversation } from '@11labs/react';
 
 const Index = () => {
   const [isConversationOpen, setIsConversationOpen] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [error, setError] = useState('');
+  const conversation = useConversation();
 
   const handleStartConversation = () => {
     console.log('Starting conversation...');
@@ -37,11 +38,18 @@ const Index = () => {
 
         <div className="flex flex-col items-center gap-4">
           <div className="w-24 h-24 flex items-center justify-center">
-            <ConversationVisualizer
-              isSpeaking={isSpeaking}
-              isRecording={isConversationOpen}
-              onClick={isConversationOpen ? handleEndConversation : handleStartConversation}
-            />
+            <div className={`cursor-pointer ${isSpeaking ? 'animate-pulse' : ''}`}>
+              <div 
+                className={`w-16 h-16 rounded-full ${isConversationOpen ? 'bg-red-500' : 'bg-blue-500'} 
+                          flex items-center justify-center transition-colors`}
+                onClick={isConversationOpen ? handleEndConversation : handleStartConversation}
+              >
+                <div className={`w-12 h-12 rounded-full ${isConversationOpen ? 'bg-red-400' : 'bg-blue-400'} 
+                              flex items-center justify-center`}>
+                  <div className={`w-8 h-8 rounded-full ${isConversationOpen ? 'bg-red-300' : 'bg-blue-300'}`} />
+                </div>
+              </div>
+            </div>
           </div>
 
           {isConversationOpen && (
