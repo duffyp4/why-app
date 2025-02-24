@@ -34,7 +34,7 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     try {
       if (conversation.status === "connected") {
         console.log('Sending giraffe fact request...');
-        await conversation.sendText("Tell me a fact about giraffes");
+        await conversation.sendMessage("Tell me a fact about giraffes");
       }
     } catch (error) {
       console.error('Error sending giraffe fact request:', error);
