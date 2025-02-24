@@ -11,7 +11,8 @@ interface CallScreenProps {
 export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
   const [isConnecting, setIsConnecting] = useState(true);
   const sessionStartedRef = useRef(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const sourceRef = useRef<AudioBufferSourceNode | null>(null);
   
   const conversation = useConversation({
     onMessage: (message) => {
@@ -46,17 +47,43 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     }
   });
 
-  // Initialize audio on component mount only once
+  // Initialize Web Audio API
   useEffect(() => {
-    const audio = new Audio('/dial-tone.mp3');
-    audio.loop = true;  // Enable looping for continuous dial tone
-    audioRef.current = audio;
-    
+    const initAudio = async () => {
+      try {
+        // Create Audio Context
+        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        audioContextRef.current = audioContext;
+
+        // Fetch the audio file
+        const response = await fetch('/dial-tone.mp3');
+        const arrayBuffer = await response.arrayBuffer();
+        
+        // Decode the audio data
+        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        
+        // Create and configure source
+        const source = audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        source.loop = true;
+        source.connect(audioContext.destination);
+        sourceRef.current = source;
+        
+        console.log('Audio successfully initialized');
+      } catch (error) {
+        console.error('Error initializing audio:', error);
+      }
+    };
+
+    initAudio();
+
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = '';
-        audioRef.current = null;
+      if (sourceRef.current) {
+        sourceRef.current.stop();
+        sourceRef.current.disconnect();
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
       }
     };
   }, []);
@@ -67,11 +94,14 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
         if (!sessionStartedRef.current) {
           console.log('Starting initial conversation session...');
           
-          // Play audio
-          if (audioRef.current) {
+          // Start audio playback using Web Audio API
+          if (sourceRef.current && audioContextRef.current) {
             try {
-              audioRef.current.currentTime = 0;
-              await audioRef.current.play();
+              if (audioContextRef.current.state === 'suspended') {
+                await audioContextRef.current.resume();
+              }
+              sourceRef.current.start();
+              console.log('Audio playback started successfully');
             } catch (audioError) {
               console.error('Audio playback error:', audioError);
             }
@@ -97,9 +127,12 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
 
     return () => {
       clearTimeout(timer);
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
+      if (sourceRef.current) {
+        try {
+          sourceRef.current.stop();
+        } catch (error) {
+          console.error('Error stopping audio:', error);
+        }
       }
       if (sessionStartedRef.current) {
         console.log('Cleaning up conversation...');
