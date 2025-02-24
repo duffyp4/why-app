@@ -43,11 +43,11 @@ const Index = () => {
           <div>With</div>
           <div>Lara</div>
         </div>
-        <div className="text-gray-600 text-xl mt-2 flex items-center gap-2">
-          For when kids ask
+        <div className="text-gray-600 text-xl mt-2 flex flex-col items-end gap-4">
+          <span>For when kids ask</span>
           <div className="relative inline-flex items-center">
-            <MessageCircle className="w-14 h-14 text-[#3772FF] absolute -left-3 -top-3" />
-            <span className="relative z-10 px-3 py-1 text-[#3772FF] font-bold">
+            <MessageCircle className="w-14 h-14 text-[#3772FF]" />
+            <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold">
               why
             </span>
           </div>
