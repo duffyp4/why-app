@@ -1,31 +1,8 @@
 
 import { useState } from "react";
-import { Smile, PhoneOff } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { VoiceChat } from "@/components/VoiceChat";
-import { useConversation } from '@11labs/react';
+import { Smile } from "lucide-react";
 
 const Index = () => {
-  const [isConversationOpen, setIsConversationOpen] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [error, setError] = useState('');
-  const conversation = useConversation();
-
-  const handleStartConversation = () => {
-    console.log('Starting conversation...');
-    setIsConversationOpen(true);
-    setError('');
-  };
-
-  const handleEndConversation = () => {
-    console.log('Ending conversation...');
-    setIsConversationOpen(false);
-    setError('');
-  };
-
-  console.log('Current conversation state:', isConversationOpen);
-  console.log('Speaking state:', isSpeaking);
-
   return (
     <div className="min-h-screen bg-[#D3E4FD] p-4">
       <div className="max-w-3xl mx-auto">
@@ -37,45 +14,8 @@ const Index = () => {
         </div>
 
         <div className="flex flex-col items-center gap-4">
-          <div className="w-24 h-24 flex items-center justify-center">
-            <div className={`cursor-pointer ${isSpeaking ? 'animate-pulse' : ''}`}>
-              <div 
-                className={`w-16 h-16 rounded-full ${isConversationOpen ? 'bg-red-500' : 'bg-blue-500'} 
-                          flex items-center justify-center transition-colors`}
-                onClick={isConversationOpen ? handleEndConversation : handleStartConversation}
-              >
-                <div className={`w-12 h-12 rounded-full ${isConversationOpen ? 'bg-red-400' : 'bg-blue-400'} 
-                              flex items-center justify-center`}>
-                  <div className={`w-8 h-8 rounded-full ${isConversationOpen ? 'bg-red-300' : 'bg-blue-300'}`} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {isConversationOpen && (
-            <Button
-              variant="destructive"
-              size="lg"
-              className="rounded-full"
-              onClick={handleEndConversation}
-            >
-              <PhoneOff className="mr-2" />
-              End Call
-            </Button>
-          )}
-          
-          {error && (
-            <div className="text-red-500 text-center max-w-md p-4 bg-red-50 rounded-lg">
-              {error}
-            </div>
-          )}
+          <elevenlabs-convai agent-id="bvV3UYHC4ytDbrYZI1Zm"></elevenlabs-convai>
         </div>
-        
-        <VoiceChat 
-          isOpen={isConversationOpen} 
-          onError={setError}
-          onSpeakingChange={setIsSpeaking}
-        />
       </div>
     </div>
   );
