@@ -35,32 +35,30 @@ const Index = () => {
         </div>
 
         <div className="flex flex-col items-center gap-4">
-          <div className="relative w-32 h-32">
-            {/* Audio visualization line */}
-            <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[2px] bg-white">
-              <div 
-                className={`h-full w-full ${
-                  isSpeaking 
-                    ? 'animate-wave' 
-                    : 'bg-white'
-                }`}
-              />
-            </div>
-            
-            <Button 
-              size="icon"
-              className="absolute inset-0 m-auto w-24 h-24 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#33C3F0] hover:from-[#33C3F0] hover:to-[#0EA5E9] transition-all duration-300"
-              onClick={handleStartConversation}
-            >
-              <MessageCircle className="h-12 w-12" />
-            </Button>
+          <Button 
+            size="icon"
+            className="w-24 h-24 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#33C3F0] hover:from-[#33C3F0] hover:to-[#0EA5E9] transition-all duration-300"
+            onClick={handleStartConversation}
+          >
+            <MessageCircle className="h-12 w-12" />
+          </Button>
+
+          {/* Audio visualization line */}
+          <div className="w-32 h-[2px] bg-white/50 my-4">
+            <div 
+              className={`h-full w-full ${
+                isSpeaking 
+                  ? 'animate-wave' 
+                  : 'bg-white'
+              }`}
+            />
           </div>
 
           {isConversationOpen && (
             <Button
               variant="destructive"
               size="lg"
-              className="rounded-full mt-4"
+              className="rounded-full"
               onClick={handleEndConversation}
             >
               <PhoneOff className="mr-2" />
@@ -84,22 +82,25 @@ const Index = () => {
         <style>
           {`
             @keyframes wave {
-              0%, 100% {
+              0% {
                 transform: scaleY(1);
               }
               25% {
-                transform: scaleY(2);
+                transform: scaleY(3);
               }
               50% {
                 transform: scaleY(1);
               }
               75% {
-                transform: scaleY(1.5);
+                transform: scaleY(2);
+              }
+              100% {
+                transform: scaleY(1);
               }
             }
 
             .animate-wave {
-              animation: wave 1s ease-in-out infinite;
+              animation: wave 0.75s ease-in-out infinite;
               transform-origin: center;
               background: white;
             }
