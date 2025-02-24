@@ -46,8 +46,8 @@ const Index = () => {
         </div>
 
         <div className="flex flex-col items-center gap-6">
-          {/* Main interaction button with Fisher-Price style */}
-          <div className="w-32 h-32 flex items-center justify-center bg-white rounded-full shadow-lg p-2 transform hover:scale-105 transition-transform">
+          {/* Main interaction button with enhanced shadow */}
+          <div className="w-32 h-32 flex items-center justify-center bg-white rounded-full shadow-xl hover:shadow-2xl p-2 transform hover:scale-105 transition-all duration-200">
             <div className={`cursor-pointer ${isSpeaking ? 'animate-bounce' : ''}`}>
               <div 
                 className={`w-24 h-24 rounded-full ${
