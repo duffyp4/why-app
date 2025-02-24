@@ -1,8 +1,9 @@
 
 import { useState } from "react";
-import { Smile, MessageCircle, PhoneOff } from "lucide-react";
+import { Smile, PhoneOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VoiceChat } from "@/components/VoiceChat";
+import { Orb } from '@11labs/react';
 
 const Index = () => {
   const [isConversationOpen, setIsConversationOpen] = useState(false);
@@ -35,13 +36,13 @@ const Index = () => {
         </div>
 
         <div className="flex flex-col items-center gap-4">
-          <Button 
-            size="icon"
-            className="w-24 h-24 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#33C3F0] hover:from-[#33C3F0] hover:to-[#0EA5E9] transition-all duration-300"
-            onClick={handleStartConversation}
-          >
-            <MessageCircle className="h-12 w-12" />
-          </Button>
+          <div className="w-24 h-24 flex items-center justify-center">
+            <Orb
+              isSpeaking={isSpeaking}
+              isRecording={isConversationOpen}
+              onClick={isConversationOpen ? handleEndConversation : handleStartConversation}
+            />
+          </div>
 
           {isConversationOpen && (
             <Button
