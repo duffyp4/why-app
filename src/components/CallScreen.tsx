@@ -24,29 +24,44 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     const audio = new Audio('/dial-tone.mp3');
     audio.play();
 
+    // Start the conversation session
+    const startConversationSession = async () => {
+      try {
+        await conversation.startSession({
+          agentId: "bvV3UYHC4ytDbrYZI1Zm"
+        });
+        console.log('Conversation session started successfully');
+      } catch (error) {
+        console.error('Error starting conversation session:', error);
+      }
+    };
+
     // Wait 3 seconds before starting the actual call
     const timer = setTimeout(() => {
       setIsConnecting(false);
       onCallStarted();
+      startConversationSession();
     }, 3000);
 
     return () => {
       clearTimeout(timer);
       audio.pause();
       audio.currentTime = 0;
+      // End the session when component unmounts
+      conversation.endSession();
     };
-  }, [onCallStarted]);
+  }, [onCallStarted, conversation]);
 
   const handleGiraffeClick = async () => {
     try {
+      console.log('Current conversation status:', conversation.status);
       if (conversation.status === "connected") {
         console.log('Sending giraffe fact request...');
-        // Since we're using the websocket connection, we need to have started a session first
-        // The message will be handled by the agent through the established websocket connection
-        await conversation.startSession({
-          agentId: "bvV3UYHC4ytDbrYZI1Zm",
-          initialMessages: ["Tell me a fact about giraffes"]
-        });
+        const initialMessage = { role: "user", content: "Tell me a fact about giraffes" };
+        // Use the existing session to send the message
+        await conversation.sendMessage(initialMessage);
+      } else {
+        console.log('Conversation not connected. Current status:', conversation.status);
       }
     } catch (error) {
       console.error('Error sending giraffe fact request:', error);
