@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Phone, PhoneOff, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -107,6 +106,15 @@ const Index = () => {
             <p className="text-gray-600">"Why is the sky blue?"</p>
             <p className="text-gray-600">"Why does my dad drink coffee?"</p>
             <p className="text-gray-600">"Why do babies eat baby food?"</p>
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0 mb-4 text-center">
+          <div className="text-gray-600">
+            Made with 🤘
+          </div>
+          <div className="text-gray-600">
+            by Uncle PJ
           </div>
         </div>
       </div>
