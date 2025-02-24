@@ -122,7 +122,7 @@ const Index = () => {
           </div>
         </div>
         <img 
-          src="/lovable-uploads/b96e232b-7284-4e6b-bf25-db8579ac1102.png" 
+          src="/lovable-uploads/02eefade-b305-4cd9-810b-a90313601ff7.png" 
           alt="Cute giraffe under a tree"
           className="w-full h-full object-contain object-bottom"
         />
