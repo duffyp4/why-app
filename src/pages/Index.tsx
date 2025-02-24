@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Phone, PhoneOff } from "lucide-react";
+import { Phone, PhoneOff, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VoiceChat } from "@/components/VoiceChat";
 import { useConversation } from '@11labs/react';
@@ -43,8 +43,14 @@ const Index = () => {
           <div>With</div>
           <div>Lara</div>
         </div>
-        <div className="text-gray-600 text-xl mt-2">
-          For when kids ask "y"
+        <div className="text-gray-600 text-xl mt-2 flex items-center gap-2">
+          For when kids ask
+          <div className="relative inline-flex items-center">
+            <MessageCircle className="w-10 h-10 text-[#3772FF] absolute -left-1 -top-1" />
+            <span className="relative z-10 px-3 py-1 text-[#3772FF] font-bold">
+              why
+            </span>
+          </div>
         </div>
       </div>
 
