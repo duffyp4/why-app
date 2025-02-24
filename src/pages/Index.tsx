@@ -126,7 +126,7 @@ const Index = () => {
           <div className="space-y-3" style={{ fontFamily: "'Schoolbell', cursive" }}>
             <p className="text-gray-600">"Why is the sky blue?"</p>
             <p className="text-gray-600">"Why does my dad drink coffee?"</p>
-            <p className="text-gray-600">"Why do babies eat baby food?"</p>
+            <p className="text-gray-600">"Why do babies have no hair?"</p>
           </div>
         </div>
       </div>
