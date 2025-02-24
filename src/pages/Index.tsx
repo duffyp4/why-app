@@ -38,7 +38,7 @@ const Index = () => {
     <div className="min-h-screen bg-white font-fredoka relative">
       <div className="p-4 pb-0">
         {/* Header Section */}
-        <div className="max-w-3xl mx-auto mb-[53px] md:mb-[62px] flex justify-between">
+        <div className="max-w-3xl mx-auto mb-[83px] md:mb-[62px] flex justify-between">
           <div className="text-5xl font-bold leading-tight text-left">
             <div className="text-[#EA526F]">Learn</div>
             <div className="text-[#FF8A5B]">with</div>
