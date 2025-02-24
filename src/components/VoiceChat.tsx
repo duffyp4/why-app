@@ -11,11 +11,10 @@ export const VoiceChat = ({
   onError: (message: string) => void;
   onSpeakingChange?: (isSpeaking: boolean) => void;
 }) => {
-  const sessionActiveRef = useRef(false);
-  const { isSpeaking } = useConversation();
   const conversation = useConversation({
     onMessage: (message) => {
       console.log('Received message:', message);
+      // Check if the message contains audio data
       if (message.type === 'audio') {
         console.log('Audio message received, duration:', message.duration);
         console.log('Setting speaking state to TRUE', {
@@ -25,6 +24,7 @@ export const VoiceChat = ({
         });
         if (onSpeakingChange) {
           onSpeakingChange(true);
+          // Reset speaking state after audio message ends
           setTimeout(() => {
             console.log('Setting speaking state to FALSE', {
               messageType: message.type,
@@ -41,7 +41,11 @@ export const VoiceChat = ({
       onError('Error during conversation');
     }
   });
+  
+  const sessionActiveRef = useRef(false);
+  const { isSpeaking } = useConversation();
 
+  // Debug speaking state changes with more detail
   useEffect(() => {
     if (onSpeakingChange) {
       console.log('Speaking state update:', {
@@ -57,16 +61,15 @@ export const VoiceChat = ({
     }
   }, [isSpeaking, onSpeakingChange, conversation.status]);
 
-  // Handle conversation session lifecycle
   useEffect(() => {
     if (isOpen && !sessionActiveRef.current) {
       const startConversation = async () => {
         try {
-          console.log('Starting new conversation session...');
           sessionActiveRef.current = true;
+          console.log('Starting new conversation session...');
           const conversationId = await conversation.startSession({
             agentId: "bvV3UYHC4ytDbrYZI1Zm",
-            initialMessages: []
+            initialMessages: [] // Add any initial messages if needed
           });
           console.log('Conversation session started successfully:', {
             conversationId,
@@ -83,16 +86,11 @@ export const VoiceChat = ({
       };
 
       startConversation();
+    } else if (!isOpen && sessionActiveRef.current) {
+      console.log('Ending conversation session...');
+      conversation.endSession();
+      sessionActiveRef.current = false;
     }
-    
-    // Cleanup function that runs when isOpen becomes false or component unmounts
-    return () => {
-      if (sessionActiveRef.current) {
-        console.log('Ending conversation session...');
-        conversation.endSession();
-        sessionActiveRef.current = false;
-      }
-    };
   }, [isOpen, conversation, onError]);
 
   return null;
