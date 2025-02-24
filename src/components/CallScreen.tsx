@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { PhoneOff } from 'lucide-react';
+import { useConversation } from '@11labs/react';
 
 interface CallScreenProps {
   onCallStarted: () => void;
@@ -9,6 +10,7 @@ interface CallScreenProps {
 
 export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
   const [isConnecting, setIsConnecting] = useState(true);
+  const conversation = useConversation();
 
   useEffect(() => {
     // Play dial tone sound
@@ -28,6 +30,17 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     };
   }, [onCallStarted]);
 
+  const handleGiraffeClick = async () => {
+    try {
+      if (conversation.status === "connected") {
+        console.log('Sending giraffe fact request...');
+        await conversation.sendText("Tell me a fact about giraffes");
+      }
+    } catch (error) {
+      console.error('Error sending giraffe fact request:', error);
+    }
+  };
+
   const animalEmojis = ['🐱', '🐵', '🐰', '🐧', '🐘', '🦒'];
 
   return (
@@ -46,9 +59,16 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
           {animalEmojis.map((emoji, index) => (
             <div 
               key={index}
-              className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center"
+              className={`w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center ${
+                index === 5 ? 'cursor-pointer hover:bg-[#33C3F0]/30 transition-colors' : ''
+              }`}
+              onClick={index === 5 ? handleGiraffeClick : undefined}
             >
-              <span className="text-3xl" role="img" aria-label={`Decorative animal ${index + 1}`}>
+              <span 
+                className="text-3xl" 
+                role="img" 
+                aria-label={`Decorative animal ${index + 1}`}
+              >
                 {emoji}
               </span>
             </div>
