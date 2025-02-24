@@ -39,7 +39,7 @@ const Index = () => {
       <div className="p-4 pb-0">
         {/* Header Section */}
         <div className="max-w-3xl mx-auto mb-[83px] md:mb-[62px] flex justify-between">
-          <div className="text-5xl font-bold leading-tight text-left" style={{ fontFamily: "'Kablammo', cursive" }}>
+          <div className="text-5xl font-bold leading-tight text-left" style={{ fontFamily: "'Chewy', cursive" }}>
             <div className="text-[#EA526F]">Learn</div>
             <div className="text-[#FF8A5B]">with</div>
             <div className="text-[#EA526F]">Lara</div>
