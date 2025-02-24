@@ -14,23 +14,11 @@ export const VoiceChat = ({
   const conversation = useConversation({
     onMessage: (message) => {
       console.log('Received message:', message);
-      // Check if the message contains audio data
       if (message.type === 'audio') {
         console.log('Audio message received, duration:', message.duration);
-        console.log('Setting speaking state to TRUE', {
-          messageType: message.type,
-          hasOnSpeakingChange: !!onSpeakingChange,
-          currentStatus: conversation.status
-        });
         if (onSpeakingChange) {
           onSpeakingChange(true);
-          // Reset speaking state after audio message ends
           setTimeout(() => {
-            console.log('Setting speaking state to FALSE', {
-              messageType: message.type,
-              duration: message.duration,
-              connectionStatus: conversation.status
-            });
             onSpeakingChange(false);
           }, message.duration || 1000);
         }
@@ -44,40 +32,62 @@ export const VoiceChat = ({
   
   const sessionActiveRef = useRef(false);
   const { isSpeaking } = useConversation();
+  const mountCountRef = useRef(0);
 
-  // Debug speaking state changes with more detail
+  // Debug component lifecycle
   useEffect(() => {
-    if (onSpeakingChange) {
-      console.log('Speaking state update:', {
-        hookIsSpeaking: isSpeaking,
-        timestamp: new Date().toISOString(),
-        connectionStatus: conversation.status,
+    mountCountRef.current++;
+    console.log('VoiceChat mounted/updated:', {
+      mountCount: mountCountRef.current,
+      isOpen,
+      sessionActive: sessionActiveRef.current,
+      conversationStatus: conversation.status,
+      timestamp: new Date().toISOString()
+    });
+
+    return () => {
+      console.log('VoiceChat cleanup triggered:', {
+        mountCount: mountCountRef.current,
+        isOpen,
         sessionActive: sessionActiveRef.current,
-        elementClass: document.querySelector('.animate-wave') ? 'present' : 'missing',
-        animationActive: document.querySelector('.animate-wave')?.getAnimations().length || 0,
-        stack: new Error().stack
+        conversationStatus: conversation.status,
+        timestamp: new Date().toISOString()
       });
-      onSpeakingChange(isSpeaking);
-    }
-  }, [isSpeaking, onSpeakingChange, conversation.status]);
+    };
+  });
 
   useEffect(() => {
+    console.log('Session state changed:', {
+      isOpen,
+      sessionActive: sessionActiveRef.current,
+      conversationStatus: conversation.status,
+      timestamp: new Date().toISOString()
+    });
+
     if (isOpen && !sessionActiveRef.current) {
       const startConversation = async () => {
         try {
+          console.log('Attempting to start session:', {
+            sessionActive: sessionActiveRef.current,
+            conversationStatus: conversation.status,
+            timestamp: new Date().toISOString()
+          });
+
           sessionActiveRef.current = true;
-          console.log('Starting new conversation session...');
           const conversationId = await conversation.startSession({
             agentId: "bvV3UYHC4ytDbrYZI1Zm",
-            initialMessages: [] // Add any initial messages if needed
+            initialMessages: []
           });
-          console.log('Conversation session started successfully:', {
+
+          console.log('Session started successfully:', {
             conversationId,
+            sessionActive: sessionActiveRef.current,
             timestamp: new Date().toISOString()
           });
         } catch (error) {
-          console.error('Conversation session start error:', {
+          console.error('Session start error:', {
             error,
+            sessionActive: sessionActiveRef.current,
             timestamp: new Date().toISOString()
           });
           onError('Failed to start conversation');
@@ -87,11 +97,27 @@ export const VoiceChat = ({
 
       startConversation();
     } else if (!isOpen && sessionActiveRef.current) {
-      console.log('Ending conversation session...');
+      console.log('Ending session:', {
+        sessionActive: sessionActiveRef.current,
+        conversationStatus: conversation.status,
+        timestamp: new Date().toISOString()
+      });
       conversation.endSession();
       sessionActiveRef.current = false;
     }
   }, [isOpen, conversation, onError]);
+
+  useEffect(() => {
+    if (onSpeakingChange) {
+      console.log('Speaking state update:', {
+        hookIsSpeaking: isSpeaking,
+        timestamp: new Date().toISOString(),
+        connectionStatus: conversation.status,
+        sessionActive: sessionActiveRef.current
+      });
+      onSpeakingChange(isSpeaking);
+    }
+  }, [isSpeaking, onSpeakingChange, conversation.status]);
 
   return null;
 };
