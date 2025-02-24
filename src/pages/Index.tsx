@@ -35,7 +35,7 @@ const Index = () => {
   console.log('Speaking state:', isSpeaking);
 
   return (
-    <div className="min-h-screen bg-white p-4 font-fredoka">
+    <div className="min-h-screen bg-white p-4 font-fredoka relative">
       {/* Header Section */}
       <div className="max-w-3xl mx-auto mb-12 flex justify-between items-start">
         <div className="text-[#3772FF] text-4xl font-bold leading-tight text-left">
@@ -47,7 +47,7 @@ const Index = () => {
           <span>When kids <em className="font-semibold not-italic">wonder</em></span>
           <div className="relative inline-flex items-center scale-150 -ml-8">
             <MessageCircle className="w-20 h-20 text-[#3772FF]" />
-            <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold text-2xl px-4">
+            <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold text-2xl px-8">
               why?
             </span>
           </div>
@@ -110,7 +110,7 @@ const Index = () => {
       </div>
 
       {/* Giraffe Image */}
-      <div className="fixed bottom-0 left-0 w-full h-2/3 pointer-events-none">
+      <div className="fixed bottom-0 left-0 w-full pointer-events-none" style={{ top: 'calc(100vh - 66.67vh)' }}>
         <img 
           src="/lovable-uploads/b96e232b-7284-4e6b-bf25-db8579ac1102.png" 
           alt="Cute giraffe under a tree"
