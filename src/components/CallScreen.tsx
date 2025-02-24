@@ -10,7 +10,14 @@ interface CallScreenProps {
 
 export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
   const [isConnecting, setIsConnecting] = useState(true);
-  const conversation = useConversation();
+  const conversation = useConversation({
+    onMessage: (message) => {
+      console.log('Received message:', message);
+    },
+    onError: (error) => {
+      console.error('Conversation error:', error);
+    }
+  });
 
   useEffect(() => {
     // Play dial tone sound
@@ -34,7 +41,12 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     try {
       if (conversation.status === "connected") {
         console.log('Sending giraffe fact request...');
-        await conversation.sendMessage("Tell me a fact about giraffes");
+        // Since we're using the websocket connection, we need to have started a session first
+        // The message will be handled by the agent through the established websocket connection
+        await conversation.startSession({
+          agentId: "bvV3UYHC4ytDbrYZI1Zm",
+          initialMessages: ["Tell me a fact about giraffes"]
+        });
       }
     } catch (error) {
       console.error('Error sending giraffe fact request:', error);
