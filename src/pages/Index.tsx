@@ -12,13 +12,13 @@ const Index = () => {
   const handleStartConversation = () => {
     console.log('Starting conversation...');
     setIsConversationOpen(true);
-    setError(''); // Clear any previous errors
+    setError('');
   };
 
   const handleEndConversation = () => {
     console.log('Ending conversation...');
     setIsConversationOpen(false);
-    setError(''); // Clear any previous errors
+    setError('');
   };
 
   console.log('Current conversation state:', isConversationOpen);
@@ -44,13 +44,13 @@ const Index = () => {
           </Button>
 
           {/* Audio visualization line */}
-          <div className="w-32 h-[2px] overflow-hidden">
+          <div className="w-32 h-1 bg-white/20 rounded-full overflow-hidden">
             <div 
-              className={`h-full w-full bg-white ${
-                isSpeaking 
-                  ? 'animate-wave' 
-                  : ''
+              className={`h-full w-full bg-white transition-all duration-150 ${
+                isSpeaking ? 'animate-wave' : 'scale-y-0'
               }`}
+              style={{ transformOrigin: 'center' }}
+              id="wave-animation"
             />
           </div>
 
@@ -82,26 +82,13 @@ const Index = () => {
         <style>
           {`
             @keyframes wave {
-              0% {
-                transform: translateY(0px);
-              }
-              25% {
-                transform: translateY(-4px);
-              }
-              50% {
-                transform: translateY(0px);
-              }
-              75% {
-                transform: translateY(4px);
-              }
-              100% {
-                transform: translateY(0px);
-              }
+              0%, 100% { transform: scaleY(0.5); }
+              50% { transform: scaleY(2); }
             }
 
             .animate-wave {
-              animation: wave 0.5s ease-in-out infinite;
-              background: white;
+              animation: wave 1s ease-in-out infinite;
+              transform-origin: center;
             }
           `}
         </style>
