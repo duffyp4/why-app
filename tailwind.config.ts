@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -26,25 +27,25 @@ export default {
           "0%": { transform: "scale(0.95)", opacity: "0" },
           "100%": { transform: "scale(1)", opacity: "1" }
         },
+        "subtle-bounce": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "2%, 4%": { transform: "translateY(-4px)" },
+          "3%": { transform: "translateY(0)" },
+          "22%, 24%": { transform: "translateY(-4px)" },
+          "23%": { transform: "translateY(0)" }
+        },
         'accordion-down': {
-          from: {
-            height: '0'
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)'
-          }
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' }
         },
         'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)'
-          },
-          to: {
-            height: '0'
-          }
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' }
         }
       },
       animation: {
         "scale-up": "scale-up 0.3s ease-out",
+        "subtle-bounce": "subtle-bounce 5s infinite",
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
       },

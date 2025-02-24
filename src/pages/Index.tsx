@@ -57,7 +57,7 @@ const Index = () => {
 
         {/* Button Section */}
         <div className="max-w-[200px] mx-auto bg-[#3772FF] rounded-3xl shadow-lg p-8 relative mb-7">
-          <div className="w-32 h-32 flex items-center justify-center bg-white rounded-full shadow-2xl hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.2)] p-2 transform hover:scale-105 transition-all duration-200 animate-bounce">
+          <div className="w-32 h-32 flex items-center justify-center bg-white rounded-full shadow-2xl hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.2)] p-2 transform hover:scale-105 transition-all duration-200 animate-subtle-bounce">
             <div className={`cursor-pointer ${isSpeaking ? 'animate-bounce' : ''}`}>
               <div 
                 className={`w-24 h-24 rounded-full ${
