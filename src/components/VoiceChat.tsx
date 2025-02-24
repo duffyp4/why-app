@@ -17,12 +17,20 @@ export const VoiceChat = ({
       // Check if the message contains audio data
       if (message.type === 'audio') {
         console.log('Audio message received, duration:', message.duration);
-        console.log('Setting speaking state to TRUE');
+        console.log('Setting speaking state to TRUE', {
+          messageType: message.type,
+          hasOnSpeakingChange: !!onSpeakingChange,
+          currentStatus: conversation.status
+        });
         if (onSpeakingChange) {
           onSpeakingChange(true);
           // Reset speaking state after audio message ends
           setTimeout(() => {
-            console.log('Setting speaking state to FALSE');
+            console.log('Setting speaking state to FALSE', {
+              messageType: message.type,
+              duration: message.duration,
+              connectionStatus: conversation.status
+            });
             onSpeakingChange(false);
           }, message.duration || 1000);
         }
@@ -41,12 +49,13 @@ export const VoiceChat = ({
   useEffect(() => {
     if (onSpeakingChange) {
       console.log('Speaking state update:', {
-        isSpeaking,
+        hookIsSpeaking: isSpeaking,
         timestamp: new Date().toISOString(),
         connectionStatus: conversation.status,
         sessionActive: sessionActiveRef.current,
         elementClass: document.querySelector('.animate-wave') ? 'present' : 'missing',
-        animationActive: document.querySelector('.animate-wave')?.getAnimations().length || 0
+        animationActive: document.querySelector('.animate-wave')?.getAnimations().length || 0,
+        stack: new Error().stack
       });
       onSpeakingChange(isSpeaking);
     }
