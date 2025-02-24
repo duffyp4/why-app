@@ -57,9 +57,11 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
       console.log('Current conversation status:', conversation.status);
       if (conversation.status === "connected") {
         console.log('Sending giraffe fact request...');
-        const initialMessage = { role: "user", content: "Tell me a fact about giraffes" };
-        // Use the existing session to send the message
-        await conversation.sendMessage(initialMessage);
+        // Restart the session with our giraffe question
+        await conversation.startSession({
+          agentId: "bvV3UYHC4ytDbrYZI1Zm",
+          initialMessages: ["Tell me a fact about giraffes"]
+        });
       } else {
         console.log('Conversation not connected. Current status:', conversation.status);
       }
