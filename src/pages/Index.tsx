@@ -60,7 +60,6 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white font-fredoka relative">
       <div className="p-4 pb-0">
-        {/* Header Section */}
         <div className="max-w-3xl mx-auto mb-[83px] md:mb-[62px] flex justify-between">
           <div className="text-5xl font-bold leading-tight text-left" style={{ fontFamily: "'Chewy', cursive" }}>
             <div className="text-[#EA526F]">Learn</div>
@@ -78,10 +77,9 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Button Section */}
         <div className="max-w-[200px] mx-auto bg-[#3772FF] rounded-3xl shadow-lg p-8 relative mb-7">
           <div className="w-32 h-32 flex items-center justify-center bg-white rounded-full shadow-2xl hover:shadow-[0_25px_25px_-5px_rgba(0,0,0,0.3)] p-2 transform hover:scale-105 hover:-translate-y-1 transition-all duration-300 cursor-pointer">
-            <div className={`${isSpeaking ? 'animate-bounce' : ''}`}>
+            <div>
               <div 
                 className={`w-24 h-24 rounded-full ${
                   isConversationOpen ? 'bg-[#4CAF50]' : 'bg-[#F5E453]'
@@ -112,7 +110,6 @@ const Index = () => {
         )}
           
         <VoiceChat 
-          key={`voice-chat-${isConversationOpen}`}
           isOpen={isConversationOpen} 
           onError={setError}
           onSpeakingChange={setIsSpeaking}
@@ -135,7 +132,6 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Transparent Container with Giraffe Image */}
       <div className="h-[300px] md:h-[400px] relative">
         <div className="absolute w-full text-center bottom-2 z-10">
           <div className="text-gray-600" style={{ fontFamily: "'Schoolbell', cursive" }}>
