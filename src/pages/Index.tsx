@@ -42,7 +42,7 @@ const Index = () => {
           <h1 className="text-4xl font-bold text-white mb-2">
             Learn with Lara
           </h1>
-          <div className="text-white text-lg">Click to call</div>
+          <div className="text-white text-lg">For when kids ask "why?"</div>
         </div>
 
         <div className="flex flex-col items-center gap-6">
@@ -91,6 +91,16 @@ const Index = () => {
             onEndCall={handleEndConversation}
           />
         )}
+      </div>
+
+      {/* Suggestions section */}
+      <div className="max-w-2xl mx-auto mt-8 text-center space-y-4">
+        <p className="text-gray-700 font-semibold text-xl">Try asking:</p>
+        <div className="space-y-3">
+          <p className="text-gray-600">"Why is the sky blue?"</p>
+          <p className="text-gray-600">"Why does my dad drink coffee?"</p>
+          <p className="text-gray-600">"Why do I have to drink water?"</p>
+        </div>
       </div>
     </div>
   );

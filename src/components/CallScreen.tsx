@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { PhoneOff, Mic, MicOff } from 'lucide-react';
+import { PhoneOff } from 'lucide-react';
 
 interface CallScreenProps {
   onCallStarted: () => void;
@@ -8,7 +8,6 @@ interface CallScreenProps {
 }
 
 export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
-  const [isMuted, setIsMuted] = useState(false);
   const [isConnecting, setIsConnecting] = useState(true);
 
   useEffect(() => {
@@ -37,24 +36,6 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
         <div className="text-[#4CAF50] text-xl animate-pulse">
           {isConnecting ? 'calling...' : 'Learn with Lara'}
         </div>
-      </div>
-
-      {/* Call controls */}
-      <div className="flex justify-center items-center gap-8 mt-16">
-        <button 
-          onClick={() => setIsMuted(!isMuted)}
-          className="flex flex-col items-center gap-2"
-        >
-          <div className="w-16 h-16 rounded-full border-2 border-[#4CAF50] flex items-center justify-center">
-            {isMuted ? 
-              <MicOff className="w-8 h-8 text-[#4CAF50]" /> :
-              <Mic className="w-8 h-8 text-[#4CAF50]" />
-            }
-          </div>
-          <span className="text-[#4CAF50] text-sm">
-            {isMuted ? 'Unmute' : 'Mute'}
-          </span>
-        </button>
       </div>
 
       {/* End call button */}
