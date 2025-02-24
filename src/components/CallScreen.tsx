@@ -28,6 +28,8 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     };
   }, [onCallStarted]);
 
+  const animalEmojis = ['🐱', '🐵', '🐰', '🐧', '🐘', '🦒'];
+
   return (
     <div className="fixed inset-0 bg-[#1E2F3D] z-50 flex flex-col items-center p-8 font-fredoka animate-[scale-up_0.3s_ease-out]">
       {/* Phone number and status */}
@@ -41,50 +43,16 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
       {/* Decorative animal buttons */}
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="grid grid-cols-3 gap-8">
-          {/* First row */}
-          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
-            <img 
-              src="/placeholder.svg" 
-              alt="Decorative cat"
-              className="w-10 h-10 opacity-70"
-            />
-          </div>
-          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
-            <img 
-              src="/placeholder.svg" 
-              alt="Decorative monkey"
-              className="w-10 h-10 opacity-70"
-            />
-          </div>
-          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
-            <img 
-              src="/placeholder.svg" 
-              alt="Decorative rabbit"
-              className="w-10 h-10 opacity-70"
-            />
-          </div>
-          {/* Second row */}
-          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
-            <img 
-              src="/placeholder.svg" 
-              alt="Decorative penguin"
-              className="w-10 h-10 opacity-70"
-            />
-          </div>
-          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
-            <img 
-              src="/placeholder.svg" 
-              alt="Decorative elephant"
-              className="w-10 h-10 opacity-70"
-            />
-          </div>
-          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
-            <img 
-              src="/placeholder.svg" 
-              alt="Decorative giraffe"
-              className="w-10 h-10 opacity-70"
-            />
-          </div>
+          {animalEmojis.map((emoji, index) => (
+            <div 
+              key={index}
+              className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center"
+            >
+              <span className="text-3xl" role="img" aria-label={`Decorative animal ${index + 1}`}>
+                {emoji}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 
