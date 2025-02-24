@@ -46,12 +46,16 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     }
   });
 
-  // Initialize audio on component mount
+  // Initialize audio on component mount only once
   useEffect(() => {
-    audioRef.current = new Audio('/dial-tone.mp3');
+    const audio = new Audio('/dial-tone.mp3');
+    audio.loop = true;  // Enable looping for continuous dial tone
+    audioRef.current = audio;
+    
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current.src = '';
         audioRef.current = null;
       }
     };
@@ -61,14 +65,12 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     const startConversationSession = async () => {
       try {
         if (!sessionStartedRef.current) {
-          console.log('Starting initial conversation session...', {
-            timestamp: new Date().toISOString(),
-            currentStatus: conversation.status
-          });
+          console.log('Starting initial conversation session...');
           
-          // Play dial tone
+          // Play audio
           if (audioRef.current) {
             try {
+              audioRef.current.currentTime = 0;
               await audioRef.current.play();
             } catch (audioError) {
               console.error('Audio playback error:', audioError);
@@ -79,20 +81,10 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
             agentId: "bvV3UYHC4ytDbrYZI1Zm"
           });
           sessionStartedRef.current = true;
-          console.log('Conversation session started successfully:', {
-            conversationId,
-            status: conversation.status,
-            timestamp: new Date().toISOString(),
-            sessionStarted: sessionStartedRef.current
-          });
+          console.log('Conversation session started:', conversationId);
         }
       } catch (error) {
-        console.error('Error starting conversation session:', {
-          error,
-          status: conversation.status,
-          timestamp: new Date().toISOString(),
-          sessionStarted: sessionStartedRef.current
-        });
+        console.error('Error starting conversation session:', error);
       }
     };
 
@@ -110,54 +102,14 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
         audioRef.current.currentTime = 0;
       }
       if (sessionStartedRef.current) {
-        console.log('Cleaning up conversation...', {
-          status: conversation.status,
-          timestamp: new Date().toISOString(),
-          sessionStarted: sessionStartedRef.current
-        });
+        console.log('Cleaning up conversation...');
         sessionStartedRef.current = false;
         conversation.endSession();
       }
     };
   }, [onCallStarted, conversation]);
 
-  const handleGiraffeClick = async () => {
-    try {
-      console.log('Giraffe button clicked:', {
-        currentStatus: conversation.status,
-        timestamp: new Date().toISOString(),
-        sessionStarted: sessionStartedRef.current
-      });
-
-      // Only send the message if we have an active session
-      if (sessionStartedRef.current && conversation.status === "connected") {
-        console.log('Sending giraffe fact request...', {
-          timestamp: new Date().toISOString(),
-          sessionStarted: sessionStartedRef.current
-        });
-        
-        await conversation.startSession({
-          agentId: "bvV3UYHC4ytDbrYZI1Zm",
-          initialMessages: ["Tell me a fact about giraffes"]
-        });
-      } else {
-        console.log('Cannot send giraffe request - no active session:', {
-          currentStatus: conversation.status,
-          timestamp: new Date().toISOString(),
-          sessionStarted: sessionStartedRef.current
-        });
-      }
-    } catch (error) {
-      console.error('Error in giraffe fact request:', {
-        error,
-        status: conversation.status,
-        timestamp: new Date().toISOString(),
-        sessionStarted: sessionStartedRef.current
-      });
-    }
-  };
-
-  const animalEmojis = ['🐱', '🐵', '🐰', '🐧', '🐘', '🦒'];
+  const decorativeEmojis = ['🐱', '🐵', '🐰', '🐧', '🐘', '🦊'];
 
   return (
     <div className="fixed inset-0 bg-[#1E2F3D] z-50 flex flex-col items-center p-8 font-fredoka animate-[scale-up_0.3s_ease-out]">
@@ -169,16 +121,13 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
         </div>
       </div>
 
-      {/* Decorative animal buttons */}
+      {/* Decorative animal buttons (non-interactive) */}
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="grid grid-cols-3 gap-8">
-          {animalEmojis.map((emoji, index) => (
+          {decorativeEmojis.map((emoji, index) => (
             <div 
               key={index}
-              className={`w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center ${
-                index === 5 ? 'cursor-pointer hover:bg-[#33C3F0]/30 transition-colors' : ''
-              }`}
-              onClick={index === 5 ? handleGiraffeClick : undefined}
+              className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center"
             >
               <span 
                 className="text-3xl" 
