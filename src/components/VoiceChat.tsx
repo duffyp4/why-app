@@ -15,23 +15,41 @@ export const VoiceChat = ({
   const sessionActiveRef = useRef(false);
   const { isSpeaking } = useConversation();
 
+  // Debug websocket connection status
+  useEffect(() => {
+    console.log('Conversation connection status:', conversation.status);
+  }, [conversation.status]);
+
+  // Debug speaking state changes
   useEffect(() => {
     if (onSpeakingChange) {
+      console.log('Speaking state update:', {
+        isSpeaking,
+        timestamp: new Date().toISOString(),
+        connectionStatus: conversation.status
+      });
       onSpeakingChange(isSpeaking);
     }
-  }, [isSpeaking, onSpeakingChange]);
+  }, [isSpeaking, onSpeakingChange, conversation.status]);
 
   useEffect(() => {
     if (isOpen && !sessionActiveRef.current) {
       const startConversation = async () => {
         try {
           sessionActiveRef.current = true;
+          console.log('Starting new conversation session...');
           const conversationId = await conversation.startSession({
             agentId: "bvV3UYHC4ytDbrYZI1Zm"
           });
-          console.log('Started conversation:', conversationId);
+          console.log('Conversation session started successfully:', {
+            conversationId,
+            timestamp: new Date().toISOString()
+          });
         } catch (error) {
-          console.error('Conversation error:', error);
+          console.error('Conversation session start error:', {
+            error,
+            timestamp: new Date().toISOString()
+          });
           onError('Failed to start conversation');
           sessionActiveRef.current = false;
         }
@@ -39,7 +57,7 @@ export const VoiceChat = ({
 
       startConversation();
     } else if (!isOpen && sessionActiveRef.current) {
-      console.log('Ending conversation session');
+      console.log('Ending conversation session...');
       conversation.endSession();
       sessionActiveRef.current = false;
     }
