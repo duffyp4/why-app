@@ -16,11 +16,15 @@ export const VoiceChat = ({
       console.log('Received message:', message);
       // Check if the message contains audio data
       if (message.type === 'audio') {
-        console.log('Audio message received');
+        console.log('Audio message received, duration:', message.duration);
+        console.log('Setting speaking state to TRUE');
         if (onSpeakingChange) {
           onSpeakingChange(true);
           // Reset speaking state after audio message ends
-          setTimeout(() => onSpeakingChange(false), message.duration || 1000);
+          setTimeout(() => {
+            console.log('Setting speaking state to FALSE');
+            onSpeakingChange(false);
+          }, message.duration || 1000);
         }
       }
     },
@@ -33,19 +37,16 @@ export const VoiceChat = ({
   const sessionActiveRef = useRef(false);
   const { isSpeaking } = useConversation();
 
-  // Debug websocket connection status
-  useEffect(() => {
-    console.log('Conversation connection status:', conversation.status);
-  }, [conversation.status]);
-
-  // Debug speaking state changes
+  // Debug speaking state changes with more detail
   useEffect(() => {
     if (onSpeakingChange) {
       console.log('Speaking state update:', {
         isSpeaking,
         timestamp: new Date().toISOString(),
         connectionStatus: conversation.status,
-        sessionActive: sessionActiveRef.current
+        sessionActive: sessionActiveRef.current,
+        elementClass: document.querySelector('.animate-wave') ? 'present' : 'missing',
+        animationActive: document.querySelector('.animate-wave')?.getAnimations().length || 0
       });
       onSpeakingChange(isSpeaking);
     }
