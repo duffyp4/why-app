@@ -29,10 +29,10 @@ export default {
         },
         "subtle-bounce": {
           "0%, 100%": { transform: "translateY(0)" },
-          "2%, 4%": { transform: "translateY(-4px)" },
-          "3%": { transform: "translateY(0)" },
-          "22%, 24%": { transform: "translateY(-4px)" },
-          "23%": { transform: "translateY(0)" }
+          "10%": { transform: "translateY(-4px)" },
+          "15%": { transform: "translateY(0)" },
+          "20%": { transform: "translateY(-4px)" },
+          "25%, 100%": { transform: "translateY(0)" }
         },
         'accordion-down': {
           from: { height: '0' },
