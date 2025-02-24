@@ -39,7 +39,7 @@ const Index = () => {
       <div className="p-4 pb-0">
         {/* Header Section */}
         <div className="max-w-3xl mx-auto mb-16 flex justify-between items-end">
-          <div className="text-[#3772FF] text-4xl font-bold leading-tight text-left">
+          <div className="text-[#3772FF] text-6xl font-bold leading-[1.1] text-left">
             <div>Learn</div>
             <div>With</div>
             <div>Lara</div>
