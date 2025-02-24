@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { PhoneOff } from 'lucide-react';
 import { useConversation } from '@11labs/react';
 
@@ -10,43 +10,68 @@ interface CallScreenProps {
 
 export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
   const [isConnecting, setIsConnecting] = useState(true);
+  const sessionStartedRef = useRef(false);
   const conversation = useConversation({
     onMessage: (message) => {
-      console.log('Received message:', message);
+      console.log('Received message:', {
+        message,
+        status: conversation.status,
+        timestamp: new Date().toISOString(),
+        sessionStarted: sessionStartedRef.current
+      });
     },
     onError: (error) => {
-      console.error('Conversation error:', error);
+      console.error('Conversation error:', {
+        error,
+        status: conversation.status,
+        timestamp: new Date().toISOString(),
+        sessionStarted: sessionStartedRef.current
+      });
     },
     onConnect: () => {
-      console.log('WebSocket connected');
+      console.log('WebSocket connected:', {
+        timestamp: new Date().toISOString(),
+        sessionStarted: sessionStartedRef.current
+      });
     },
     onDisconnect: () => {
-      console.log('WebSocket disconnected');
+      console.log('WebSocket disconnected:', {
+        timestamp: new Date().toISOString(),
+        sessionStarted: sessionStartedRef.current
+      });
     }
   });
 
   useEffect(() => {
     // Play dial tone sound
     const audio = new Audio('/dial-tone.mp3');
-    audio.play();
+    audio.play().catch(error => {
+      console.error('Audio playback error:', error);
+    });
 
     // Start the conversation session
     const startConversationSession = async () => {
       try {
-        console.log('Starting initial conversation session...');
+        console.log('Starting initial conversation session...', {
+          timestamp: new Date().toISOString(),
+          currentStatus: conversation.status
+        });
         const conversationId = await conversation.startSession({
           agentId: "bvV3UYHC4ytDbrYZI1Zm"
         });
+        sessionStartedRef.current = true;
         console.log('Conversation session started successfully:', {
           conversationId,
           status: conversation.status,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          sessionStarted: sessionStartedRef.current
         });
       } catch (error) {
         console.error('Error starting conversation session:', {
           error,
           status: conversation.status,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          sessionStarted: sessionStartedRef.current
         });
       }
     };
@@ -64,8 +89,10 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
       audio.currentTime = 0;
       console.log('Cleaning up conversation...', {
         status: conversation.status,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        sessionStarted: sessionStartedRef.current
       });
+      sessionStartedRef.current = false;
       conversation.endSession();
     };
   }, [onCallStarted, conversation]);
@@ -74,12 +101,23 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
     try {
       console.log('Giraffe button clicked:', {
         currentStatus: conversation.status,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        sessionStarted: sessionStartedRef.current
       });
+
+      if (!sessionStartedRef.current) {
+        console.log('Attempting to restart session before giraffe request...', {
+          timestamp: new Date().toISOString()
+        });
+        await conversation.startSession({
+          agentId: "bvV3UYHC4ytDbrYZI1Zm"
+        });
+      }
 
       if (conversation.status === "connected") {
         console.log('Attempting to send giraffe fact request...', {
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          sessionStarted: sessionStartedRef.current
         });
         // Restart the session with our giraffe question
         const newSessionId = await conversation.startSession({
@@ -88,12 +126,14 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
         });
         console.log('New giraffe session started:', {
           newSessionId,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          sessionStarted: sessionStartedRef.current
         });
       } else {
         console.log('Conversation not connected:', {
           currentStatus: conversation.status,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          sessionStarted: sessionStartedRef.current
         });
       }
     } catch (error) {
@@ -101,6 +141,7 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
         error,
         status: conversation.status,
         timestamp: new Date().toISOString(),
+        sessionStarted: sessionStartedRef.current,
         errorStack: error instanceof Error ? error.stack : undefined
       });
     }
