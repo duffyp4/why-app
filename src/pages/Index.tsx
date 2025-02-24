@@ -38,19 +38,21 @@ const Index = () => {
     <div className="min-h-screen bg-white font-fredoka relative">
       <div className="p-4 pb-0">
         {/* Header Section */}
-        <div className="max-w-3xl mx-auto mb-16 flex justify-between items-end">
-          <div className="text-[#3772FF] text-6xl font-bold leading-[1.1] text-left">
-            <div>Learn</div>
-            <div>With</div>
-            <div>Lara</div>
-          </div>
-          <div className="text-gray-600 text-xl flex flex-col items-end gap-6">
-            <span>For when kids <em className="font-semibold not-italic">wonder</em></span>
-            <div className="relative inline-flex items-center scale-150 -ml-8">
-              <MessageCircle className="w-24 h-24 text-[#3772FF]" />
-              <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold text-2xl px-12" style={{ fontFamily: "'Schoolbell', cursive" }}>
-                why?
-              </span>
+        <div className="max-w-3xl mx-auto mb-16">
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="flex flex-col justify-between text-[#3772FF] text-4xl md:text-5xl font-bold leading-tight">
+              <div>Learn</div>
+              <div>With</div>
+              <div>Lara</div>
+            </div>
+            <div className="text-gray-600 text-xl flex flex-col items-start md:items-end gap-6 mt-0">
+              <span>For when kids <em className="font-semibold not-italic">wonder</em></span>
+              <div className="relative inline-flex items-center scale-125 md:scale-150 ml-0 md:-ml-8 mt-auto">
+                <MessageCircle className="w-24 h-24 text-[#3772FF]" />
+                <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold text-2xl px-12" style={{ fontFamily: "'Schoolbell', cursive" }}>
+                  why?
+                </span>
+              </div>
             </div>
           </div>
         </div>
