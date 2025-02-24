@@ -27,45 +27,54 @@ const Index = () => {
   console.log('Speaking state:', isSpeaking);
 
   return (
-    <div className="min-h-screen bg-[#D3E4FD] p-4">
+    <div className="min-h-screen bg-gradient-to-b from-[#FF444A] to-[#FF8C42] p-4">
       <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-yellow-500 mb-4 flex items-center justify-center gap-2">
-            <Smile className="w-10 h-10 text-yellow-500" />
-            WHY?
+        {/* Header with Fisher-Price style */}
+        <div className="bg-[#FF444A] rounded-b-3xl shadow-lg mb-8 p-4">
+          <h1 className="text-4xl font-bold text-white mb-2 flex items-center justify-center gap-2">
+            <Smile className="w-10 h-10 text-[#FFD700]" />
+            Talk & Learn
           </h1>
+          <div className="text-white text-center text-lg">Your friendly chat companion!</div>
         </div>
 
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-24 h-24 flex items-center justify-center">
-            <div className={`cursor-pointer ${isSpeaking ? 'animate-pulse' : ''}`}>
+        <div className="flex flex-col items-center gap-6">
+          {/* Main interaction button with Fisher-Price style */}
+          <div className="w-32 h-32 flex items-center justify-center bg-white rounded-full shadow-lg p-2 transform hover:scale-105 transition-transform">
+            <div className={`cursor-pointer ${isSpeaking ? 'animate-bounce' : ''}`}>
               <div 
-                className={`w-16 h-16 rounded-full ${isConversationOpen ? 'bg-red-500' : 'bg-blue-500'} 
-                          flex items-center justify-center transition-colors`}
+                className={`w-24 h-24 rounded-full ${
+                  isConversationOpen ? 'bg-[#FF8C42]' : 'bg-[#4CA6FF]'
+                } flex items-center justify-center transition-colors border-4 border-white shadow-inner`}
                 onClick={isConversationOpen ? handleEndConversation : handleStartConversation}
               >
-                <div className={`w-12 h-12 rounded-full ${isConversationOpen ? 'bg-red-400' : 'bg-blue-400'} 
-                              flex items-center justify-center`}>
-                  <div className={`w-8 h-8 rounded-full ${isConversationOpen ? 'bg-red-300' : 'bg-blue-300'}`} />
+                <div className={`w-16 h-16 rounded-full ${
+                  isConversationOpen ? 'bg-[#FF6B6B]' : 'bg-[#73B8FF]'
+                } flex items-center justify-center`}>
+                  <div className={`w-8 h-8 rounded-full ${
+                    isConversationOpen ? 'bg-[#FF8C42]' : 'bg-[#98CDFF]'
+                  }`} />
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Control button with Fisher-Price style */}
           {isConversationOpen && (
             <Button
-              variant="destructive"
+              variant="default"
               size="lg"
-              className="rounded-full"
+              className="rounded-full bg-[#FF444A] hover:bg-[#FF6B6B] text-white font-bold text-lg shadow-lg border-4 border-white"
               onClick={handleEndConversation}
             >
-              <PhoneOff className="mr-2" />
-              End Call
+              <PhoneOff className="mr-2 w-6 h-6" />
+              Stop Talking
             </Button>
           )}
           
+          {/* Error message with Fisher-Price style */}
           {error && (
-            <div className="text-red-500 text-center max-w-md p-4 bg-red-50 rounded-lg">
+            <div className="text-white text-center max-w-md p-4 bg-[#FF6B6B] rounded-xl border-4 border-white shadow-lg">
               {error}
             </div>
           )}
