@@ -103,7 +103,7 @@ const Index = () => {
 
         <div className="max-w-2xl mx-auto mb-10 text-center space-y-4">
           <p className="text-gray-700 font-semibold text-xl">Try asking:</p>
-          <div className="space-y-3">
+          <div className="space-y-3" style={{ fontFamily: "'Schoolbell', cursive" }}>
             <p className="text-gray-600">"Why is the sky blue?"</p>
             <p className="text-gray-600">"Why does my dad drink coffee?"</p>
             <p className="text-gray-600">"Why do babies eat baby food?"</p>
