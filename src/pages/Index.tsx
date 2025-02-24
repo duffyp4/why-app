@@ -115,10 +115,10 @@ const Index = () => {
       <div className="h-[400px] relative">
         <div className="absolute w-full text-center bottom-2 z-10">
           <div className="text-gray-600" style={{ fontFamily: "'Schoolbell', cursive" }}>
-            Made with 🤘
+            made with 🤘
           </div>
           <div className="text-gray-600" style={{ fontFamily: "'Schoolbell', cursive" }}>
-            by Uncle PJ
+            by uncle pj
           </div>
         </div>
         <img 
