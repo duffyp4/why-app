@@ -36,17 +36,18 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white p-4 font-fredoka">
-      <div className="max-w-3xl mx-auto bg-[#3772FF] rounded-3xl shadow-lg p-8">
-        {/* Header with centered text */}
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Learn with Lara
-          </h1>
-          <div className="text-white text-lg">For when kids ask "why?"</div>
+      <div className="max-w-3xl mx-auto bg-[#3772FF] rounded-3xl shadow-lg p-8 relative min-h-[500px]">
+        {/* Title in upper right corner */}
+        <div className="absolute top-8 right-8 text-right">
+          <div className="text-[#F5E453] text-4xl font-bold leading-tight">
+            <div>Learn</div>
+            <div>With</div>
+            <div>Lara</div>
+          </div>
         </div>
 
-        <div className="flex flex-col items-center gap-6">
-          {/* Main interaction button with enhanced shadow */}
+        {/* Centered button */}
+        <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-32 h-32 flex items-center justify-center bg-white rounded-full shadow-xl hover:shadow-2xl p-2 transform hover:scale-105 transition-all duration-200">
             <div className={`cursor-pointer ${isSpeaking ? 'animate-bounce' : ''}`}>
               <div 
@@ -70,14 +71,13 @@ const Index = () => {
               </div>
             </div>
           </div>
-          
-          {/* Error message with Fisher-Price style */}
-          {error && (
-            <div className="text-[#3772FF] text-center max-w-md p-4 bg-[#F5E453] rounded-xl border-4 border-white shadow-lg">
-              {error}
-            </div>
-          )}
         </div>
+          
+        {error && (
+          <div className="text-[#3772FF] text-center max-w-md p-4 bg-[#F5E453] rounded-xl border-4 border-white shadow-lg">
+            {error}
+          </div>
+        )}
         
         <VoiceChat 
           isOpen={isConversationOpen} 
@@ -93,7 +93,6 @@ const Index = () => {
         )}
       </div>
 
-      {/* Suggestions section */}
       <div className="max-w-2xl mx-auto mt-8 text-center space-y-4">
         <p className="text-gray-700 font-semibold text-xl">Try asking:</p>
         <div className="space-y-3">
