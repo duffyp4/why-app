@@ -43,17 +43,6 @@ const Index = () => {
             <MessageCircle className="h-12 w-12" />
           </Button>
 
-          {/* Audio visualization line */}
-          <div className="w-32 h-2 bg-white/20 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-white transition-transform duration-300"
-              style={{
-                transform: isSpeaking ? 'scaleY(1)' : 'scaleY(0)',
-                transformOrigin: 'bottom'
-              }}
-            />
-          </div>
-
           {isConversationOpen && (
             <Button
               variant="destructive"
