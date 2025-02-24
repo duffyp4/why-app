@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Smile, PhoneOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VoiceChat } from "@/components/VoiceChat";
-import { Orb } from '@11labs/react';
+import { useConversation, ConversationVisualizer } from '@11labs/react';
 
 const Index = () => {
   const [isConversationOpen, setIsConversationOpen] = useState(false);
@@ -37,7 +37,7 @@ const Index = () => {
 
         <div className="flex flex-col items-center gap-4">
           <div className="w-24 h-24 flex items-center justify-center">
-            <Orb
+            <ConversationVisualizer
               isSpeaking={isSpeaking}
               isRecording={isConversationOpen}
               onClick={isConversationOpen ? handleEndConversation : handleStartConversation}
