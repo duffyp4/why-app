@@ -39,7 +39,7 @@ const Index = () => {
       <div className="p-4 pb-0">
         {/* Header Section */}
         <div className="max-w-3xl mx-auto mb-12 flex justify-between">
-          <div className="text-[#3772FF] text-5xl font-bold leading-tight text-left">
+          <div className="text-[#EA526F] text-5xl font-bold leading-tight text-left">
             <div>Learn</div>
             <div>With</div>
             <div>Lara</div>
@@ -47,8 +47,8 @@ const Index = () => {
           <div className="text-gray-600 text-xl mt-5 flex flex-col items-end justify-between">
             <span>For when kids <em className="font-semibold not-italic">wonder</em></span>
             <div className="relative inline-flex items-center scale-150 -ml-8">
-              <MessageCircle className="w-24 h-24 text-[#3772FF]" />
-              <span className="absolute inset-0 flex items-center justify-center text-[#3772FF] font-bold text-2xl px-12" style={{ fontFamily: "'Schoolbell', cursive" }}>
+              <MessageCircle className="w-24 h-24 text-[#25CED1]" />
+              <span className="absolute inset-0 flex items-center justify-center text-[#25CED1] font-bold text-2xl px-12" style={{ fontFamily: "'Schoolbell', cursive" }}>
                 why?
               </span>
             </div>
