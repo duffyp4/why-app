@@ -109,8 +109,8 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Giraffe Image */}
-      <div className="absolute bottom-0 left-0 w-full pointer-events-none" style={{ top: 'min(calc(100% - 500px), 65%)' }}>
+      {/* Transparent Container with Giraffe Image */}
+      <div className="mt-8 h-[400px] relative bg-white/5 backdrop-blur-[2px]">
         <img 
           src="/lovable-uploads/b96e232b-7284-4e6b-bf25-db8579ac1102.png" 
           alt="Cute giraffe under a tree"
