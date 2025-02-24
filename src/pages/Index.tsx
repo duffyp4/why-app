@@ -99,7 +99,7 @@ const Index = () => {
         <div className="space-y-3">
           <p className="text-gray-600">"Why is the sky blue?"</p>
           <p className="text-gray-600">"Why does my dad drink coffee?"</p>
-          <p className="text-gray-600">"Why do I have to drink water?"</p>
+          <p className="text-gray-600">"Why do babies eat baby food?"</p>
         </div>
       </div>
     </div>
