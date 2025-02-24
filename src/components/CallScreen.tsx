@@ -30,7 +30,7 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
   }, [onCallStarted]);
 
   return (
-    <div className="fixed inset-0 bg-[#1E2F3D] z-50 flex flex-col items-center p-8 font-fredoka">
+    <div className="fixed inset-0 bg-[#1E2F3D] z-50 flex flex-col items-center p-8 font-fredoka animate-[scale-up_0.3s_ease-out]">
       {/* Phone number and status */}
       <div className="text-center mt-16">
         <div className="text-white text-4xl mb-2">555-555-5555</div>
