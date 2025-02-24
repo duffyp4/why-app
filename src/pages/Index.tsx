@@ -61,7 +61,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white font-fredoka relative">
       <div className="p-4 pb-0">
-        <div className="max-w-3xl mx-auto mb-[83px] md:mb-[62px]">
+        <div className="max-w-3xl mx-auto mb-[83px] md:mb-[62px] mt-[30px]">
           <div className="flex items-start justify-between">
             <div className="relative inline-flex items-center scale-150 ml-4 md:ml-0">
               <MessageCircle className="w-24 h-24 text-[#33C3F0]" />
