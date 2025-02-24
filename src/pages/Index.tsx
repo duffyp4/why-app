@@ -46,7 +46,7 @@ const Index = () => {
         <div className="text-gray-600 text-xl mt-2 flex items-center gap-2">
           For when kids ask
           <div className="relative inline-flex items-center">
-            <MessageCircle className="w-10 h-10 text-[#3772FF] absolute -left-1 -top-1" />
+            <MessageCircle className="w-14 h-14 text-[#3772FF] absolute -left-3 -top-3" />
             <span className="relative z-10 px-3 py-1 text-[#3772FF] font-bold">
               why
             </span>
