@@ -33,7 +33,7 @@ const Index = () => {
         <div className="bg-[#3772FF] rounded-b-3xl shadow-lg mb-8 p-4">
           <h1 className="text-4xl font-bold text-white mb-2 flex items-center justify-center gap-2">
             <Smile className="w-10 h-10 text-[#F5E453]" />
-            Talk & Learn
+            Learn with Lara
           </h1>
           <div className="text-white text-center text-lg">Your friendly chat companion!</div>
         </div>
