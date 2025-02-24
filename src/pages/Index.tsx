@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Smile, Phone, PhoneOff } from "lucide-react";
+import { Phone, PhoneOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VoiceChat } from "@/components/VoiceChat";
 import { useConversation } from '@11labs/react';
@@ -37,13 +37,12 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white p-4 font-fredoka">
       <div className="max-w-3xl mx-auto bg-[#3772FF] rounded-3xl shadow-lg p-8">
-        {/* Header with Fisher-Price style */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2 flex items-center justify-center gap-2">
-            <Smile className="w-10 h-10 text-[#F5E453]" />
+        {/* Header with centered text */}
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-bold text-white mb-2">
             Learn with Lara
           </h1>
-          <div className="text-white text-center text-lg">Your friendly chat companion!</div>
+          <div className="text-white text-lg">Click to call</div>
         </div>
 
         <div className="flex flex-col items-center gap-6">
