@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Smile, PhoneOff } from "lucide-react";
+import { Smile, Phone, PhoneOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VoiceChat } from "@/components/VoiceChat";
 import { useConversation } from '@11labs/react';
@@ -44,33 +44,25 @@ const Index = () => {
             <div className={`cursor-pointer ${isSpeaking ? 'animate-bounce' : ''}`}>
               <div 
                 className={`w-24 h-24 rounded-full ${
-                  isConversationOpen ? 'bg-[#F5E453]' : 'bg-[#F5E453]'
-                } flex items-center justify-center transition-colors border-4 border-white shadow-inner`}
+                  isConversationOpen ? 'bg-[#4CAF50]' : 'bg-[#F5E453]'
+                } flex items-center justify-center transition-colors border-4 border-white shadow-inner relative`}
                 onClick={isConversationOpen ? handleEndConversation : handleStartConversation}
               >
+                {isConversationOpen ? (
+                  <PhoneOff className="w-12 h-12 text-red-500 absolute z-10" />
+                ) : (
+                  <Phone className="w-12 h-12 text-[#4CAF50] absolute z-10" />
+                )}
                 <div className={`w-16 h-16 rounded-full ${
-                  isConversationOpen ? 'bg-[#F5E453]/80' : 'bg-[#F5E453]/80'
+                  isConversationOpen ? 'bg-[#4CAF50]/80' : 'bg-[#F5E453]/80'
                 } flex items-center justify-center`}>
                   <div className={`w-8 h-8 rounded-full ${
-                    isConversationOpen ? 'bg-[#F5E453]/60' : 'bg-[#F5E453]/60'
+                    isConversationOpen ? 'bg-[#4CAF50]/60' : 'bg-[#F5E453]/60'
                   }`} />
                 </div>
               </div>
             </div>
           </div>
-
-          {/* Control button with Fisher-Price style */}
-          {isConversationOpen && (
-            <Button
-              variant="default"
-              size="lg"
-              className="rounded-full bg-[#F5E453] hover:bg-[#F5E453]/80 text-[#3772FF] font-bold text-lg shadow-lg border-4 border-white"
-              onClick={handleEndConversation}
-            >
-              <PhoneOff className="mr-2 w-6 h-6" />
-              Stop Talking
-            </Button>
-          )}
           
           {/* Error message with Fisher-Price style */}
           {error && (
