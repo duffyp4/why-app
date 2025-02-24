@@ -38,6 +38,56 @@ export const CallScreen = ({ onCallStarted, onEndCall }: CallScreenProps) => {
         </div>
       </div>
 
+      {/* Decorative animal buttons */}
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="grid grid-cols-3 gap-8">
+          {/* First row */}
+          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
+            <img 
+              src="/placeholder.svg" 
+              alt="Decorative cat"
+              className="w-10 h-10 opacity-70"
+            />
+          </div>
+          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
+            <img 
+              src="/placeholder.svg" 
+              alt="Decorative monkey"
+              className="w-10 h-10 opacity-70"
+            />
+          </div>
+          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
+            <img 
+              src="/placeholder.svg" 
+              alt="Decorative rabbit"
+              className="w-10 h-10 opacity-70"
+            />
+          </div>
+          {/* Second row */}
+          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
+            <img 
+              src="/placeholder.svg" 
+              alt="Decorative penguin"
+              className="w-10 h-10 opacity-70"
+            />
+          </div>
+          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
+            <img 
+              src="/placeholder.svg" 
+              alt="Decorative elephant"
+              className="w-10 h-10 opacity-70"
+            />
+          </div>
+          <div className="w-16 h-16 rounded-full bg-[#33C3F0]/20 border-2 border-[#33C3F0]/40 flex items-center justify-center">
+            <img 
+              src="/placeholder.svg" 
+              alt="Decorative giraffe"
+              className="w-10 h-10 opacity-70"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* End call button */}
       <div className="fixed bottom-16 left-0 right-0 flex justify-center">
         <button 
